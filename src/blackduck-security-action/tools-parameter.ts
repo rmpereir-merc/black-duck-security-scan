@@ -6,7 +6,7 @@ import * as inputs from './inputs'
 import {Polaris} from './input-data/polaris'
 import {InputData} from './input-data/input-data'
 import {Coverity, CoverityDetect} from './input-data/coverity'
-import {Blackduck, BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES, BlackDuckDetect, BlackDuckFixPrData} from './input-data/blackduck'
+import {Blackduck, BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES, BlackDuckDetect, BlackDuckFixPrData} from './input-data/blackduck'
 import {GithubData} from './input-data/github'
 import * as constants from '../application-constants'
 import {isBoolean, isPullRequestEvent, parseToBoolean} from './utility'
@@ -333,9 +333,9 @@ export class BridgeToolsParameter {
   getFormattedCommandForBlackduck(): string {
     const failureSeverities: string[] = []
 
-    if (inputs.BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES != null && inputs.BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES.length > 0) {
+    if (inputs.BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES != null && inputs.BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES.length > 0) {
       try {
-        const failureSeveritiesInput = inputs.BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES
+        const failureSeveritiesInput = inputs.BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES
         if (failureSeveritiesInput != null && failureSeveritiesInput.length > 0) {
           const failureSeveritiesArray = failureSeveritiesInput.toUpperCase().split(',')
           for (const failureSeverity of failureSeveritiesArray) {
@@ -352,8 +352,8 @@ export class BridgeToolsParameter {
     const blackduckData: InputData<Blackduck> = {
       data: {
         blackducksca: {
-          url: inputs.BLACKDUCK_SCA_URL,
-          token: inputs.BLACKDUCK_SCA_TOKEN
+          url: inputs.BLACKDUCKSCA_URL,
+          token: inputs.BLACKDUCKSCA_TOKEN
         },
         detect: {}
       }
@@ -377,12 +377,12 @@ export class BridgeToolsParameter {
 
     if (failureSeverities && failureSeverities.length > 0) {
       validateBlackduckFailureSeverities(failureSeverities)
-      const failureSeverityEnums: BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES[] = []
+      const failureSeverityEnums: BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES[] = []
       for (const failureSeverity of failureSeverities) {
-        if (!Object.values(BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES).includes(failureSeverity as BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES)) {
+        if (!Object.values(BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES).includes(failureSeverity as BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES)) {
           throw new Error(constants.INVALID_VALUE_ERROR.concat(constants.BLACKDUCK_SCAN_FAILURE_SEVERITIES_KEY))
         } else {
-          failureSeverityEnums.push(BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES[failureSeverity as keyof typeof BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES])
+          failureSeverityEnums.push(BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES[failureSeverity as keyof typeof BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES])
         }
       }
 
@@ -393,8 +393,8 @@ export class BridgeToolsParameter {
       }
     }
 
-    if (isBoolean(inputs.BLACKDUCK_SCA_WAITFORSCAN)) {
-      blackduckData.data.blackducksca.waitForScan = parseToBoolean(inputs.BLACKDUCK_SCA_WAITFORSCAN)
+    if (isBoolean(inputs.BLACKDUCKSCA_WAITFORSCAN)) {
+      blackduckData.data.blackducksca.waitForScan = parseToBoolean(inputs.BLACKDUCKSCA_WAITFORSCAN)
     }
 
     if (inputs.PROJECT_DIRECTORY) {
@@ -404,7 +404,7 @@ export class BridgeToolsParameter {
     }
 
     const isPrEvent = isPullRequestEvent()
-    if (parseToBoolean(inputs.BLACKDUCK_SCA_PRCOMMENT_ENABLED)) {
+    if (parseToBoolean(inputs.BLACKDUCKSCA_PRCOMMENT_ENABLED)) {
       if (isPrEvent) {
         /** Set Black Duck PR comment inputs in case of PR context */
         info('Black Duck PR comment is enabled')
@@ -414,7 +414,7 @@ export class BridgeToolsParameter {
         info(constants.BLACKDUCK_PR_COMMENT_LOG_INFO_FOR_NON_PR_SCANS)
       }
     }
-    if (parseToBoolean(inputs.BLACKDUCK_SCA_FIX_PR_ENABLED)) {
+    if (parseToBoolean(inputs.BLACKDUCKSCA_FIX_PR_ENABLED)) {
       if (!isPrEvent) {
         /** Set Black Duck Fix PR inputs in case of non PR context */
         info('Black Duck Fix PR is enabled')
@@ -425,11 +425,11 @@ export class BridgeToolsParameter {
       }
     }
     if (!isPrEvent) {
-      if (parseToBoolean(inputs.BLACKDUCK_SCA_REPORTS_SARIF_CREATE)) {
+      if (parseToBoolean(inputs.BLACKDUCKSCA_REPORTS_SARIF_CREATE)) {
         /** Set Black Duck SARIF inputs in case of non PR context */
         const sarifReportFilterSeverities: string[] = []
-        if (inputs.BLACKDUCK_SCA_REPORTS_SARIF_SEVERITIES) {
-          const filterSeverities = inputs.BLACKDUCK_SCA_REPORTS_SARIF_SEVERITIES.split(',')
+        if (inputs.BLACKDUCKSCA_REPORTS_SARIF_SEVERITIES) {
+          const filterSeverities = inputs.BLACKDUCKSCA_REPORTS_SARIF_SEVERITIES.split(',')
           for (const sarifSeverity of filterSeverities) {
             if (sarifSeverity) {
               sarifReportFilterSeverities.push(sarifSeverity.trim())
@@ -439,15 +439,15 @@ export class BridgeToolsParameter {
         blackduckData.data.blackducksca.reports = {
           sarif: {
             create: true,
-            ...(inputs.BLACKDUCK_SCA_REPORTS_SARIF_SEVERITIES && {
+            ...(inputs.BLACKDUCKSCA_REPORTS_SARIF_SEVERITIES && {
               severities: sarifReportFilterSeverities
             }),
-            ...(inputs.BLACKDUCK_SCA_REPORTS_SARIF_FILE_PATH && {
+            ...(inputs.BLACKDUCKSCA_REPORTS_SARIF_FILE_PATH && {
               file: {
-                path: inputs.BLACKDUCK_SCA_REPORTS_SARIF_FILE_PATH.trim()
+                path: inputs.BLACKDUCKSCA_REPORTS_SARIF_FILE_PATH.trim()
               }
             }),
-            groupSCAIssues: isBoolean(inputs.BLACKDUCK_SCA_REPORTS_SARIF_GROUP_SCA_ISSUES) ? JSON.parse(inputs.BLACKDUCK_SCA_REPORTS_SARIF_GROUP_SCA_ISSUES) : true
+            groupSCAIssues: isBoolean(inputs.BLACKDUCKSCA_REPORTS_SARIF_GROUP_SCA_ISSUES) ? JSON.parse(inputs.BLACKDUCKSCA_REPORTS_SARIF_GROUP_SCA_ISSUES) : true
           }
         }
       }
@@ -456,13 +456,13 @@ export class BridgeToolsParameter {
         throw new Error(constants.GITHUB_TOKEN_VALIDATION_SARIF_UPLOAD_ERROR)
       }
     } else {
-      if (parseToBoolean(inputs.BLACKDUCK_SCA_REPORTS_SARIF_CREATE) || parseToBoolean(inputs.BLACKDUCK_UPLOAD_SARIF_REPORT)) {
+      if (parseToBoolean(inputs.BLACKDUCKSCA_REPORTS_SARIF_CREATE) || parseToBoolean(inputs.BLACKDUCK_UPLOAD_SARIF_REPORT)) {
         /** Log info if SARIF create/upload is enabled in PR context */
         info(constants.SARIF_REPORT_LOG_INFO_FOR_PR_SCANS)
       }
     }
 
-    if (inputs.blackducksca_policy_badges_create) {
+    if (inputs.BLACKDUCKSCA_POLICY_BADGES_CREATE) {
       blackduckData.data.blackducksca.policy = {
         badges: {
           create: true,
@@ -661,25 +661,25 @@ export class BridgeToolsParameter {
   }
 
   private setBlackDuckFixPrInputs(): BlackDuckFixPrData | undefined {
-    if (inputs.BLACKDUCK_SCA_FIX_PR_MAX_COUNT && isNaN(Number(inputs.BLACKDUCK_SCA_FIX_PR_MAX_COUNT))) {
+    if (inputs.BLACKDUCKSCA_FIX_PR_MAX_COUNT && isNaN(Number(inputs.BLACKDUCKSCA_FIX_PR_MAX_COUNT))) {
       throw new Error(constants.INVALID_VALUE_ERROR.concat(constants.BLACKDUCK_FIXPR_MAXCOUNT_KEY))
     }
-    const createSinglePr = parseToBoolean(inputs.BLACKDUCK_SCA_FIX_PR_CREATE_SINGLE_PR)
-    if (createSinglePr && inputs.BLACKDUCK_SCA_FIX_PR_MAX_COUNT) {
+    const createSinglePr = parseToBoolean(inputs.BLACKDUCKSCA_FIX_PR_CREATE_SINGLE_PR)
+    if (createSinglePr && inputs.BLACKDUCKSCA_FIX_PR_MAX_COUNT) {
       throw new Error(constants.BLACKDUCK_FIXPR_MAXCOUNT_KEY.concat(' is not applicable with ').concat(constants.BLACKDUCK_FIXPR_CREATE_SINGLE_PR_KEY))
     }
     const blackDuckFixPrData: BlackDuckFixPrData = {}
     blackDuckFixPrData.enabled = true
-    if (isBoolean(inputs.BLACKDUCK_SCA_FIX_PR_CREATE_SINGLE_PR)) {
-      blackDuckFixPrData.createSinglePR = parseToBoolean(inputs.BLACKDUCK_SCA_FIX_PR_CREATE_SINGLE_PR)
+    if (isBoolean(inputs.BLACKDUCKSCA_FIX_PR_CREATE_SINGLE_PR)) {
+      blackDuckFixPrData.createSinglePR = parseToBoolean(inputs.BLACKDUCKSCA_FIX_PR_CREATE_SINGLE_PR)
     }
-    if (inputs.BLACKDUCK_SCA_FIX_PR_MAX_COUNT && !createSinglePr) {
-      blackDuckFixPrData.maxCount = Number(inputs.BLACKDUCK_SCA_FIX_PR_MAX_COUNT)
+    if (inputs.BLACKDUCKSCA_FIX_PR_MAX_COUNT && !createSinglePr) {
+      blackDuckFixPrData.maxCount = Number(inputs.BLACKDUCKSCA_FIX_PR_MAX_COUNT)
     }
 
     const useUpgradeGuidance: string[] = []
-    if (inputs.BLACKDUCK_SCA_FIX_PR_UPGRADE_GUIDANCE != null && inputs.BLACKDUCK_SCA_FIX_PR_UPGRADE_GUIDANCE.length > 0) {
-      const useUpgradeGuidanceList = inputs.BLACKDUCK_SCA_FIX_PR_UPGRADE_GUIDANCE.split(',')
+    if (inputs.BLACKDUCKSCA_FIX_PR_UPGRADE_GUIDANCE != null && inputs.BLACKDUCKSCA_FIX_PR_UPGRADE_GUIDANCE.length > 0) {
+      const useUpgradeGuidanceList = inputs.BLACKDUCKSCA_FIX_PR_UPGRADE_GUIDANCE.split(',')
       for (const upgradeGuidance of useUpgradeGuidanceList) {
         if (upgradeGuidance != null && upgradeGuidance !== '') {
           useUpgradeGuidance.push(upgradeGuidance.trim())
@@ -688,8 +688,8 @@ export class BridgeToolsParameter {
       blackDuckFixPrData.useUpgradeGuidance = useUpgradeGuidance
     }
     const fixPRFilterSeverities: string[] = []
-    if (inputs.BLACKDUCK_SCA_FIX_PR_FILTER_SEVERITIES != null && inputs.BLACKDUCK_SCA_FIX_PR_FILTER_SEVERITIES.length > 0) {
-      const filterSeverities = inputs.BLACKDUCK_SCA_FIX_PR_FILTER_SEVERITIES.split(',')
+    if (inputs.BLACKDUCKSCA_FIX_PR_FILTER_SEVERITIES != null && inputs.BLACKDUCKSCA_FIX_PR_FILTER_SEVERITIES.length > 0) {
+      const filterSeverities = inputs.BLACKDUCKSCA_FIX_PR_FILTER_SEVERITIES.split(',')
       for (const fixPrSeverity of filterSeverities) {
         if (fixPrSeverity != null && fixPrSeverity !== '') {
           fixPRFilterSeverities.push(fixPrSeverity.trim())

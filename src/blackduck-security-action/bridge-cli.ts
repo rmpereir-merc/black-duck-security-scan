@@ -186,7 +186,7 @@ export class Bridge {
 
       // validating and preparing command for blackduck
       const blackduckErrors: string[] = validateBlackDuckInputs()
-      if (blackduckErrors.length === 0 && inputs.BLACKDUCK_SCA_URL) {
+      if (blackduckErrors.length === 0 && inputs.BLACKDUCKSCA_URL) {
         const blackDuckCommandFormatter = new BridgeToolsParameter(tempDir)
         formattedCommand = formattedCommand.concat(blackDuckCommandFormatter.getFormattedCommandForBlackduck())
       }

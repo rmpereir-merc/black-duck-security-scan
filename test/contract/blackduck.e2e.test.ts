@@ -9,13 +9,13 @@ import * as io from '@actions/io'
 import * as utility from '../../src/blackduck-security-action/utility'
 
 const blackduckParamMap: Map<string, string> = new Map<string, string>()
-blackduckParamMap.set('BLACKDUCK_SCA_URL', 'BLACKDUCK_SCA_URL')
-blackduckParamMap.set('BLACKDUCK_SCA_TOKEN', 'BLACKDUCK_SCA_TOKEN')
+blackduckParamMap.set('BLACKDUCKSCA_URL', 'BLACKDUCKSCA_URL')
+blackduckParamMap.set('BLACKDUCKSCA_TOKEN', 'BLACKDUCKSCA_TOKEN')
 blackduckParamMap.set('DETECT_SCAN_FULL', 'true')
-blackduckParamMap.set('BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES', 'ALL')
+blackduckParamMap.set('BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES', 'ALL')
 blackduckParamMap.set('DETECT_INSTALL_DIRECTORY', '/User/home')
-blackduckParamMap.set('BLACKDUCK_SCA_PRCOMMENT_ENABLED', 'true')
-blackduckParamMap.set('BLACKDUCK_SCA_FIX_PR_ENABLED', 'true')
+blackduckParamMap.set('BLACKDUCKSCA_PRCOMMENT_ENABLED', 'true')
+blackduckParamMap.set('BLACKDUCKSCA_FIX_PR_ENABLED', 'true')
 
 describe('Blackduck flow contract', () => {
   afterAll(() => {
@@ -29,7 +29,7 @@ describe('Blackduck flow contract', () => {
 
   it('With all mandatory fields', async () => {
     mockBridgeDownloadUrlAndBridgePath()
-    mockBlackduckParamsExcept(['DETECT_INSTALL_DIRECTORY', 'BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES'])
+    mockBlackduckParamsExcept(['DETECT_INSTALL_DIRECTORY', 'BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES'])
 
     setAllMocks()
 
@@ -39,7 +39,7 @@ describe('Blackduck flow contract', () => {
 
   it('With missing mandatory fields blackduck.api.token', async () => {
     mockBridgeDownloadUrlAndBridgePath()
-    mockBlackduckParamsExcept(['DETECT_INSTALL_DIRECTORY', 'BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES', 'BLACKDUCK_SCA_TOKEN'])
+    mockBlackduckParamsExcept(['DETECT_INSTALL_DIRECTORY', 'BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES', 'BLACKDUCKSCA_TOKEN'])
 
     setAllMocks()
 

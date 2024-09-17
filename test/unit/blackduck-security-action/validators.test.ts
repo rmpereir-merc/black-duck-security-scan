@@ -26,7 +26,7 @@ test('Test validate Blackduck Failure Severities', () => {
     validateBlackduckFailureSeverities(failureSeverities)
   } catch (error: any) {
     expect(error).toBeInstanceOf(Error)
-    expect(error.message).toContain('Provided value is not valid - BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES')
+    expect(error.message).toContain('Provided value is not valid - BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES')
   }
 })
 
@@ -117,39 +117,39 @@ test('Coverity - With mandatory fields', async () => {
 
 // BLACKDUCK
 test('Blackduck - Without mandatory fields', async () => {
-  Object.defineProperty(inputs, 'BLACKDUCK_SCA_URL', {value: 'BLACKDUCK_SCA_URL'})
+  Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: 'BLACKDUCKSCA_URL'})
   try {
     validateBlackDuckInputs()
   } catch (error: any) {
     expect(error).toBeInstanceOf(Error)
     expect(error.message).toContain('[blackduck_token,blackduck_scan_full] - required parameters for blackduck is missing')
   }
-  Object.defineProperty(inputs, 'BLACKDUCK_SCA_URL', {value: null})
+  Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: null})
 })
 
 test('Blackduck - With one or more non-mandatory fields', async () => {
-  Object.defineProperty(inputs, 'BLACKDUCK_SCA_URL', {value: 'BLACKDUCK_SCA_URL'})
-  Object.defineProperty(inputs, 'BLACKDUCK_SCA_TOKEN', {value: 'BLACKDUCK_SCA_TOKEN'})
+  Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: 'BLACKDUCKSCA_URL'})
+  Object.defineProperty(inputs, 'BLACKDUCKSCA_TOKEN', {value: 'BLACKDUCKSCA_TOKEN'})
   Object.defineProperty(inputs, 'DETECT_INSTALL_DIRECTORY', {value: 'DETECT_INSTALL_DIRECTORY'})
   Object.defineProperty(inputs, 'DETECT_SCAN_FULL', {value: 'TRUE'})
-  Object.defineProperty(inputs, 'BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES', {value: '["ALL"]'})
+  Object.defineProperty(inputs, 'BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES', {value: '["ALL"]'})
 
   let response = validateBlackDuckInputs()
   expect(response.length).toBe(0)
 
-  Object.defineProperty(inputs, 'BLACKDUCK_SCA_URL', {value: null})
+  Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: null})
 })
 
 test('Blackduck - With mandatory fields', async () => {
-  Object.defineProperty(inputs, 'BLACKDUCK_SCA_URL', {value: 'BLACKDUCK_SCA_URL'})
-  Object.defineProperty(inputs, 'BLACKDUCK_SCA_TOKEN', {value: 'BLACKDUCK_SCA_TOKEN'})
+  Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: 'BLACKDUCKSCA_URL'})
+  Object.defineProperty(inputs, 'BLACKDUCKSCA_TOKEN', {value: 'BLACKDUCKSCA_TOKEN'})
   Object.defineProperty(inputs, 'DETECT_SCAN_FULL', {value: 'TRUE'})
   Object.defineProperty(inputs, 'BRIDGE_CLI_DOWNLOAD_URL', {value: 'http://download-bridge-win.zip'})
 
   let response = validateBlackDuckInputs()
   expect(response.length).toBe(0)
 
-  Object.defineProperty(inputs, 'BLACKDUCK_SCA_URL', {value: null})
+  Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: null})
 })
 
 // SRM

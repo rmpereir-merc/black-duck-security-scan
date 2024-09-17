@@ -1,7 +1,7 @@
 import {Reports} from './reports'
 import {AsyncMode} from './async-mode'
 
-export enum BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES {
+export enum BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES {
   ALL = 'ALL',
   NONE = 'NONE',
   BLOCKER = 'BLOCKER',
@@ -26,7 +26,7 @@ export interface Blackduck {
 export interface BlackduckData extends AsyncMode {
   url: string
   token: string
-  scan?: {failure?: {severities: BLACKDUCK_SCA_SCAN_FAILURE_SEVERITIES[]}}
+  scan?: {failure?: {severities: BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES[]}}
   automation?: AutomationData
   fixpr?: BlackDuckFixPrData
   reports?: Reports
