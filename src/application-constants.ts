@@ -1,7 +1,7 @@
 export const BRIDGE_CLI_DEFAULT_PATH_MAC = '/bridge-cli' //Path will be in home
 export const BRIDGE_CLI_DEFAULT_PATH_WINDOWS = '\\bridge-cli'
 export const BRIDGE_CLI_DEFAULT_PATH_LINUX = '/bridge-cli'
-export const BRIDGE_CLI_ARTIFACTORY_URL = 'https://sig-repo.synopsys.com/artifactory/bds-integrations-release/com/synopsys/integration/bridge-cli/'
+export const BRIDGE_CLI_ARTIFACTORY_URL = 'https://repo.blackduck.com/artifactory/bds-integrations-release/com/blackduck/integration/bridge-cli/'
 
 export const APPLICATION_NAME = 'blackduck-security-action'
 /**
