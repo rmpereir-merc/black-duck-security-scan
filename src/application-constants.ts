@@ -130,27 +130,27 @@ export const BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES_KEY = 'blackducksca_scan_failu
  * @deprecated Use blackducksca_fixpr_enabled instead. This can be removed in future release.
  */
 export const BLACKDUCK_FIXPR_ENABLED_KEY = 'blackduck_fixpr_enabled'
-export const BLACKDUCKSCA_FIX_PR_ENABLED_KEY = 'blackducksca_fixpr_enabled'
+export const BLACKDUCKSCA_FIXPR_ENABLED_KEY = 'blackducksca_fixpr_enabled'
 /**
  * @deprecated Use blackducksca_fixpr_maxCount instead. This can be removed in future release.
  */
 export const BLACKDUCK_FIXPR_MAXCOUNT_KEY = 'blackduck_fixpr_maxCount'
-export const BLACKDUCKSCA_FIX_PR_MAX_COUNT_KEY = 'blackducksca_fixpr_maxCount'
+export const BLACKDUCKSCA_FIXPR_MAX_COUNT_KEY = 'blackducksca_fixpr_maxCount'
 /**
  * @deprecated Use blackducksca_fixpr_createSinglePR instead. This can be removed in future release.
  */
 export const BLACKDUCK_FIXPR_CREATE_SINGLE_PR_KEY = 'blackduck_fixpr_createSinglePR'
-export const BLACKDUCKSCA_FIX_PR_CREATE_SINGLE_PR_KEY = 'blackducksca_fixpr_createSinglePR'
+export const BLACKDUCKSCA_FIXPR_CREATE_SINGLE_PR_KEY = 'blackducksca_fixpr_createSinglePR'
 /**
  * @deprecated Use blackducksca_fixpr_filter_severities instead. This can be removed in future release.
  */
 export const BLACKDUCK_FIXPR_FILTER_SEVERITIES_KEY = 'blackduck_fixpr_filter_severities'
-export const BLACKDUCKSCA_FIX_PR_FILTER_SEVERITIES_KEY = 'blackducksca_fixpr_filter_severities'
+export const BLACKDUCKSCA_FIXPR_FILTER_SEVERITIES_KEY = 'blackducksca_fixpr_filter_severities'
 /**
  * @deprecated Use blackducksca_fixpr_useUpgradeGuidance instead. This can be removed in future release.
  */
 export const BLACKDUCK_FIXPR_USE_UPGRADE_GUIDANCE_KEY = 'blackduck_fixpr_useUpgradeGuidance'
-export const BLACKDUCKSCA_FIX_PR_UPGRADE_GUIDANCE_KEY = 'blackducksca_fixpr_useUpgradeGuidance'
+export const BLACKDUCKSCA_FIXPR_UPGRADE_GUIDANCE_KEY = 'blackducksca_fixpr_useUpgradeGuidance'
 /**
  * @deprecated Use blackduck_automation_prcomment instead. This can be removed in future release.
  */

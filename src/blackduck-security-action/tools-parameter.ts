@@ -414,7 +414,7 @@ export class BridgeToolsParameter {
         info(constants.BLACKDUCK_PR_COMMENT_LOG_INFO_FOR_NON_PR_SCANS)
       }
     }
-    if (parseToBoolean(inputs.BLACKDUCKSCA_FIX_PR_ENABLED)) {
+    if (parseToBoolean(inputs.BLACKDUCKSCA_FIXPR_ENABLED)) {
       if (!isPrEvent) {
         /** Set Black Duck Fix PR inputs in case of non PR context */
         info('Black Duck Fix PR is enabled')
@@ -661,25 +661,25 @@ export class BridgeToolsParameter {
   }
 
   private setBlackDuckFixPrInputs(): BlackDuckFixPrData | undefined {
-    if (inputs.BLACKDUCKSCA_FIX_PR_MAX_COUNT && isNaN(Number(inputs.BLACKDUCKSCA_FIX_PR_MAX_COUNT))) {
+    if (inputs.BLACKDUCKSCA_FIXPR_MAX_COUNT && isNaN(Number(inputs.BLACKDUCKSCA_FIXPR_MAX_COUNT))) {
       throw new Error(constants.INVALID_VALUE_ERROR.concat(constants.BLACKDUCK_FIXPR_MAXCOUNT_KEY))
     }
-    const createSinglePr = parseToBoolean(inputs.BLACKDUCKSCA_FIX_PR_CREATE_SINGLE_PR)
-    if (createSinglePr && inputs.BLACKDUCKSCA_FIX_PR_MAX_COUNT) {
+    const createSinglePr = parseToBoolean(inputs.BLACKDUCKSCA_FIXPR_CREATE_SINGLE_PR)
+    if (createSinglePr && inputs.BLACKDUCKSCA_FIXPR_MAX_COUNT) {
       throw new Error(constants.BLACKDUCK_FIXPR_MAXCOUNT_KEY.concat(' is not applicable with ').concat(constants.BLACKDUCK_FIXPR_CREATE_SINGLE_PR_KEY))
     }
     const blackDuckFixPrData: BlackDuckFixPrData = {}
     blackDuckFixPrData.enabled = true
-    if (isBoolean(inputs.BLACKDUCKSCA_FIX_PR_CREATE_SINGLE_PR)) {
-      blackDuckFixPrData.createSinglePR = parseToBoolean(inputs.BLACKDUCKSCA_FIX_PR_CREATE_SINGLE_PR)
+    if (isBoolean(inputs.BLACKDUCKSCA_FIXPR_CREATE_SINGLE_PR)) {
+      blackDuckFixPrData.createSinglePR = parseToBoolean(inputs.BLACKDUCKSCA_FIXPR_CREATE_SINGLE_PR)
     }
-    if (inputs.BLACKDUCKSCA_FIX_PR_MAX_COUNT && !createSinglePr) {
-      blackDuckFixPrData.maxCount = Number(inputs.BLACKDUCKSCA_FIX_PR_MAX_COUNT)
+    if (inputs.BLACKDUCKSCA_FIXPR_MAX_COUNT && !createSinglePr) {
+      blackDuckFixPrData.maxCount = Number(inputs.BLACKDUCKSCA_FIXPR_MAX_COUNT)
     }
 
     const useUpgradeGuidance: string[] = []
-    if (inputs.BLACKDUCKSCA_FIX_PR_UPGRADE_GUIDANCE != null && inputs.BLACKDUCKSCA_FIX_PR_UPGRADE_GUIDANCE.length > 0) {
-      const useUpgradeGuidanceList = inputs.BLACKDUCKSCA_FIX_PR_UPGRADE_GUIDANCE.split(',')
+    if (inputs.BLACKDUCKSCA_FIXPR_UPGRADE_GUIDANCE != null && inputs.BLACKDUCKSCA_FIXPR_UPGRADE_GUIDANCE.length > 0) {
+      const useUpgradeGuidanceList = inputs.BLACKDUCKSCA_FIXPR_UPGRADE_GUIDANCE.split(',')
       for (const upgradeGuidance of useUpgradeGuidanceList) {
         if (upgradeGuidance != null && upgradeGuidance !== '') {
           useUpgradeGuidance.push(upgradeGuidance.trim())
@@ -688,8 +688,8 @@ export class BridgeToolsParameter {
       blackDuckFixPrData.useUpgradeGuidance = useUpgradeGuidance
     }
     const fixPRFilterSeverities: string[] = []
-    if (inputs.BLACKDUCKSCA_FIX_PR_FILTER_SEVERITIES != null && inputs.BLACKDUCKSCA_FIX_PR_FILTER_SEVERITIES.length > 0) {
-      const filterSeverities = inputs.BLACKDUCKSCA_FIX_PR_FILTER_SEVERITIES.split(',')
+    if (inputs.BLACKDUCKSCA_FIXPR_FILTER_SEVERITIES != null && inputs.BLACKDUCKSCA_FIXPR_FILTER_SEVERITIES.length > 0) {
+      const filterSeverities = inputs.BLACKDUCKSCA_FIXPR_FILTER_SEVERITIES.split(',')
       for (const fixPrSeverity of filterSeverities) {
         if (fixPrSeverity != null && fixPrSeverity !== '') {
           fixPRFilterSeverities.push(fixPrSeverity.trim())
