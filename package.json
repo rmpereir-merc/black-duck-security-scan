@@ -18,15 +18,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/synopsys-sig/synopsys-action.git"
+    "url": "git+https://github.com/blackduck-inc/blackduck-security-action.git"
   },
   "keywords": [],
   "author": "Black Duck Software, Inc.",
   "license": "Apache 2.0",
   "bugs": {
-    "url": "https://github.com/synopsys-sig/synopsys-action/issues"
+    "url": "https://github.com/blackduck-inc/blackduck-security-action/issues"
   },
-  "homepage": "https://github.com/synopsys-sig/synopsys-action#readme",
+  "homepage": "https://github.com/blackduck-inc/blackduck-security-action#readme",
   "devDependencies": {
     "@types/dom-parser": "^0.1.1",
     "@types/jest": "^29.1.0",

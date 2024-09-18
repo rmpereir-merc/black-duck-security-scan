@@ -6,7 +6,7 @@ import * as inputs from './inputs'
 import {Polaris} from './input-data/polaris'
 import {InputData} from './input-data/input-data'
 import {Coverity, CoverityDetect} from './input-data/coverity'
-import {Blackduck, BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES, BlackDuckDetect, BlackDuckFixPrData} from './input-data/blackduck'
+import {BlackDuckSCA, BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES, BlackDuckDetect, BlackDuckFixPrData} from './input-data/blackduck'
 import {GithubData} from './input-data/github'
 import * as constants from '../application-constants'
 import {isBoolean, isPullRequestEvent, parseToBoolean} from './utility'
@@ -349,7 +349,7 @@ export class BridgeToolsParameter {
       }
     }
     let command = ''
-    const blackduckData: InputData<Blackduck> = {
+    const blackduckData: InputData<BlackDuckSCA> = {
       data: {
         blackducksca: {
           url: inputs.BLACKDUCKSCA_URL,

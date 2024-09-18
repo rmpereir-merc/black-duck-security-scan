@@ -150,9 +150,9 @@ export class Bridge {
         if (process.env['RUNNER_OS']) {
           runnerOS = process.env['RUNNER_OS']
         }
-        return Promise.reject(new Error(constants.BRIDGE_URL_NOT_VALID_OS_ERROR.concat(runnerOS, ' runner')))
+        return Promise.reject(new Error(constants.BRIDGE_CLI_URL_NOT_VALID_OS_ERROR.concat(runnerOS, ' runner')))
       } else if (errorObject.toLowerCase().includes('empty')) {
-        return Promise.reject(new Error(constants.PROVIDED_BRIDGE_URL_EMPTY_ERROR))
+        return Promise.reject(new Error(constants.PROVIDED_BRIDGE_CLI_URL_EMPTY_ERROR))
       } else {
         return Promise.reject(new Error(errorObject))
       }
@@ -226,7 +226,7 @@ export class Bridge {
 
   async getAllAvailableBridgeVersions(): Promise<string[]> {
     let htmlResponse = ''
-    const httpClient = new HttpClient('synopsys-task')
+    const httpClient = new HttpClient('blackduck-task')
 
     let retryCountLocal = RETRY_COUNT
     let retryDelay = RETRY_DELAY_IN_MILLISECONDS

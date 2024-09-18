@@ -13,8 +13,8 @@ export enum BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES {
   UNSPECIFIED = 'UNSPECIFIED'
 }
 
-export interface Blackduck {
-  blackducksca: BlackduckData
+export interface BlackDuckSCA {
+  blackducksca: BlackDuckSCAData
   detect?: BlackDuckDetect
   project?: {
     directory?: string
@@ -23,7 +23,7 @@ export interface Blackduck {
   network?: NetworkAirGap
 }
 
-export interface BlackduckData extends AsyncMode {
+export interface BlackDuckSCAData extends AsyncMode {
   url: string
   token: string
   scan?: {failure?: {severities: BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES[]}}

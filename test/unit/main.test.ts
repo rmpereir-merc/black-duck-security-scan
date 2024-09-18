@@ -358,7 +358,7 @@ test('Run Bridge download and configure option with wrong download url - run', a
   try {
     await run()
   } catch (error: any) {
-    expect(error.message).toContain('Bridge url is not valid')
+    expect(error.message).toContain('Bridge CLI url is not valid')
   }
 
   Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: null})
@@ -375,12 +375,12 @@ test('Run Bridge download and configure option with empty url - run', async () =
   Object.defineProperty(inputs, 'BRIDGE_CLI_DOWNLOAD_URL', {value: ''})
 
   jest.spyOn(Bridge.prototype, 'getBridgeVersionFromLatestURL').mockResolvedValueOnce('0.1.0')
-  jest.spyOn(downloadUtility, 'getRemoteFile').mockRejectedValueOnce(new Error('Bridge url cannot be empty'))
+  jest.spyOn(downloadUtility, 'getRemoteFile').mockRejectedValueOnce(new Error('Bridge CLI url cannot be empty'))
 
   try {
     await run()
   } catch (error: any) {
-    expect(error.message).toContain('Bridge URL cannot be empty')
+    expect(error.message).toContain('Bridge CLI URL cannot be empty')
   }
 
   Object.defineProperty(inputs, 'BRIDGE_CLI_DOWNLOAD_URL', {value: null})
@@ -444,7 +444,7 @@ test('Run polaris flow with wrong bridge version - run', async () => {
   try {
     await run()
   } catch (error: any) {
-    expect(error.message).toContain('Provided Bridge version not found in artifactory')
+    expect(error.message).toContain('Provided Bridge CLI version not found in artifactory')
   }
   Object.defineProperty(inputs, 'POLARIS_SERVER_URL', {value: null})
 })

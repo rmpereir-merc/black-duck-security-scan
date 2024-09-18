@@ -13,11 +13,11 @@ export interface DownloadFileResponse {
 
 export async function getRemoteFile(destFilePath: string, url: string): Promise<DownloadFileResponse> {
   if (url == null || url.length === 0) {
-    throw new Error(constants.BRIDGE_URL_EMPTY_ERROR)
+    throw new Error(constants.BRIDGE_CLI_URL_EMPTY_ERROR)
   }
 
   if (!validateBridgeUrl(url)) {
-    throw new Error(constants.BRIDGE_URL_NOT_VALID_ERROR)
+    throw new Error(constants.BRIDGE_CLI_URL_NOT_VALID_ERROR)
   }
 
   try {

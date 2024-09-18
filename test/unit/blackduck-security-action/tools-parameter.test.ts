@@ -780,7 +780,7 @@ it('should pass polaris fields and wait for scan field to bridge', () => {
   Object.defineProperty(inputs, 'POLARIS_WAITFORSCAN', {value: true})
 
   const stp: BridgeToolsParameter = new BridgeToolsParameter(tempPath)
-  const resp = stp.getFormattedCommandForPolaris('synopsys-action')
+  const resp = stp.getFormattedCommandForPolaris('blackduck-security-action')
 
   const jsonString = fs.readFileSync(tempPath.concat(polaris_input_file), 'utf-8')
   const jsonData = JSON.parse(jsonString)
@@ -925,7 +925,7 @@ it('should pass coverity fields and wait for scan field to bridge', () => {
   Object.defineProperty(inputs, 'COVERITY_WAITFORSCAN', {value: true})
 
   const stp: BridgeToolsParameter = new BridgeToolsParameter(tempPath)
-  const resp = stp.getFormattedCommandForCoverity('synopsys-action')
+  const resp = stp.getFormattedCommandForCoverity('blackduck-security-action')
 
   const jsonString = fs.readFileSync(tempPath.concat(coverity_input_file), 'utf-8')
   const jsonData = JSON.parse(jsonString)
@@ -1262,7 +1262,7 @@ it('should pass SRM fields and wait for scan field to bridge', () => {
   Object.defineProperty(inputs, 'SRM_WAITFORSCAN', {value: true})
 
   const stp: BridgeToolsParameter = new BridgeToolsParameter(tempPath)
-  const resp = stp.getFormattedCommandForSRM('synopsys-action')
+  const resp = stp.getFormattedCommandForSRM('blackduck-security-action')
 
   const jsonString = fs.readFileSync(tempPath.concat(srm_input_file), 'utf-8')
   const jsonData = JSON.parse(jsonString)
