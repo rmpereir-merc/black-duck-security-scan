@@ -94,7 +94,7 @@ describe('Blackduck flow contract', () => {
     }
   })
 
-  it('With blackduck.automation.fixpr true and empty github token', async () => {
+  it('With blackducksca.automation.fixpr true and empty github token', async () => {
     mockBridgeDownloadUrlAndBridgePath()
     mockBlackduckParamsExcept(['NONE'])
     Object.defineProperty(inputs, 'GITHUB_TOKEN', {value: ''})
@@ -109,7 +109,7 @@ describe('Blackduck flow contract', () => {
     }
   })
 
-  it('With blackduck.automation.fixpr true and empty github repo name', async () => {
+  it('With blackducksca.automation.fixpr true and empty github repo name', async () => {
     mockBridgeDownloadUrlAndBridgePath()
     mockBlackduckParamsExcept(['NONE'])
     process.env['GITHUB_REPOSITORY'] = ''
@@ -123,7 +123,7 @@ describe('Blackduck flow contract', () => {
     }
   })
 
-  it('With blackduck.automation.fixpr true and empty github branch name', async () => {
+  it('With blackducksca.automation.fixpr true and empty github branch name', async () => {
     mockBridgeDownloadUrlAndBridgePath()
     mockBlackduckParamsExcept(['NONE'])
     process.env['GITHUB_REF_NAME'] = ''
@@ -137,7 +137,7 @@ describe('Blackduck flow contract', () => {
     }
   })
 
-  it('With blackduck.automation.fixpr true and empty github owner name', async () => {
+  it('With blackducksca.automation.fixpr true and empty github owner name', async () => {
     mockBridgeDownloadUrlAndBridgePath()
     mockBlackduckParamsExcept(['NONE'])
     blackduckParamMap.set('DETECT_SCAN_FULL', 'false') //rapid scan

@@ -478,7 +478,7 @@ test('Test error messages with bridge exit codes', () => {
   var errorMessage = 'Error: The process failed with exit code 2'
   expect(logBridgeExitCodes(errorMessage)).toEqual('Exit Code: 2 Error from adapter end')
 })
-test('Run Black Duck flow for uploading sarif result as artifact', async () => {
+test('Run Black Duck SCA flow for uploading sarif result as artifact', async () => {
   Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: 'BLACKDUCKSCA_URL'})
   Object.defineProperty(inputs, 'BLACKDUCKSCA_TOKEN', {value: 'BLACKDUCKSCA_TOKEN'})
   Object.defineProperty(inputs, 'DETECT_SCAN_FULL', {value: 'TRUE'})
@@ -507,7 +507,7 @@ test('Run Black Duck flow for uploading sarif result as artifact', async () => {
   expect(diagnostics.uploadSarifReportAsArtifact).toBeCalledTimes(1)
 })
 
-test('Run Black Duck flow for uploading sarif result to advance security and artifacts', async () => {
+test('Run Black Duck SCA flow for uploading sarif result to advance security and artifacts', async () => {
   Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: 'BLACKDUCKSCA_URL'})
   Object.defineProperty(inputs, 'BLACKDUCKSCA_TOKEN', {value: 'BLACKDUCKSCA_TOKEN'})
   Object.defineProperty(inputs, 'DETECT_SCAN_FULL', {value: 'TRUE'})
@@ -541,7 +541,7 @@ test('Run Black Duck flow for uploading sarif result to advance security and art
   expect(GithubClientServiceBase.prototype.uploadSarifReport).toBeCalledTimes(1)
 })
 
-test('should throw error while uploading Black Duck sarif result to advance security', async () => {
+test('should throw error while uploading Black Duck SCA sarif result to advance security', async () => {
   Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: 'BLACKDUCKSCA_URL'})
   Object.defineProperty(inputs, 'BLACKDUCKSCA_TOKEN', {value: 'BLACKDUCKSCA_TOKEN'})
   Object.defineProperty(inputs, 'DETECT_SCAN_FULL', {value: 'TRUE'})
@@ -575,7 +575,7 @@ test('should throw error while uploading Black Duck sarif result to advance secu
   }
 })
 
-test('test black duck flow for mandatory github token for uploading sarif result to github advance security', async () => {
+test('test black duck sca flow for mandatory github token for uploading sarif result to github advance security', async () => {
   Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: 'BLACKDUCKSCA_URL'})
   Object.defineProperty(inputs, 'BLACKDUCKSCA_TOKEN', {value: 'BLACKDUCKSCA_TOKEN'})
   Object.defineProperty(inputs, 'DETECT_SCAN_FULL', {value: 'TRUE'})
@@ -606,7 +606,7 @@ test('test black duck flow for mandatory github token for uploading sarif result
   }
 })
 
-test('should return black duck token missing on failure', async () => {
+test('should return black duck sca token missing on failure', async () => {
   Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: 'server_url'})
   Object.defineProperty(inputs, 'BLACKDUCKSCA_TOKEN', {value: ''})
   Object.defineProperty(inputs, 'BRIDGE_CLI_DOWNLOAD_VERSION', {value: '0.7.0'})
@@ -620,7 +620,7 @@ test('should return black duck token missing on failure', async () => {
   }
 })
 
-test('should not execute black duck sarif create for pr context', async () => {
+test('should not execute black duck sca sarif create for pr context', async () => {
   Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: 'server_url'})
   Object.defineProperty(inputs, 'BLACKDUCKSCA_TOKEN', {value: 'test'})
   Object.defineProperty(inputs, 'BRIDGE_CLI_DOWNLOAD_VERSION', {value: '0.7.0'})
@@ -643,7 +643,7 @@ test('should not execute black duck sarif create for pr context', async () => {
   expect(diagnostics.uploadSarifReportAsArtifact).toBeCalledTimes(0)
 })
 
-test('should not upload black duck sarif for pr context', async () => {
+test('should not upload black duck sca sarif for pr context', async () => {
   Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: 'server_url'})
   Object.defineProperty(inputs, 'BLACKDUCKSCA_TOKEN', {value: 'test'})
   Object.defineProperty(inputs, 'BRIDGE_CLI_DOWNLOAD_VERSION', {value: '0.7.0'})
