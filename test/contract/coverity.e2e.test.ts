@@ -14,8 +14,6 @@ coverityParamMap.set('COVERITY_USER', 'User1')
 coverityParamMap.set('COVERITY_PASSPHRASE', 'passphrase')
 coverityParamMap.set('COVERITY_INSTALL_DIRECTORY', '/')
 coverityParamMap.set('COVERITY_POLICY_VIEW', 'policy')
-coverityParamMap.set('COVERITY_REPOSITORY_NAME', 'repo')
-coverityParamMap.set('COVERITY_BRANCH_NAME', 'branch')
 coverityParamMap.set('COVERITY_PRCOMMENT_ENABLED', 'true')
 
 describe('Coverity flow contract', () => {
@@ -30,7 +28,7 @@ describe('Coverity flow contract', () => {
 
   it('With all mandatory fields', async () => {
     mockBridgeDownloadUrlAndBridgePath()
-    mockCoverityParamsExcept(['COVERITY_INSTALL_DIRECTORY', 'COVERITY_POLICY_VIEW', 'COVERITY_REPOSITORY_NAME', 'COVERITY_BRANCH_NAME', 'COVERITY_PRCOMMENT_ENABLED'])
+    mockCoverityParamsExcept(['COVERITY_INSTALL_DIRECTORY', 'COVERITY_POLICY_VIEW', 'COVERITY_PRCOMMENT_ENABLED'])
 
     setAllMocks()
 
@@ -40,7 +38,7 @@ describe('Coverity flow contract', () => {
 
   it('With missing mandatory fields coverity.connect.user.name', async () => {
     mockBridgeDownloadUrlAndBridgePath()
-    mockCoverityParamsExcept(['COVERITY_INSTALL_DIRECTORY', 'COVERITY_POLICY_VIEW', 'COVERITY_REPOSITORY_NAME', 'COVERITY_BRANCH_NAME', 'COVERITY_USER'])
+    mockCoverityParamsExcept(['COVERITY_INSTALL_DIRECTORY', 'COVERITY_POLICY_VIEW', 'COVERITY_USER'])
 
     setAllMocks()
 
@@ -54,7 +52,7 @@ describe('Coverity flow contract', () => {
 
   it('With missing mandatory fields coverity.connect.user.password', async () => {
     mockBridgeDownloadUrlAndBridgePath()
-    mockCoverityParamsExcept(['COVERITY_INSTALL_DIRECTORY', 'COVERITY_POLICY_VIEW', 'COVERITY_REPOSITORY_NAME', 'COVERITY_BRANCH_NAME', 'COVERITY_PASSPHRASE'])
+    mockCoverityParamsExcept(['COVERITY_INSTALL_DIRECTORY', 'COVERITY_POLICY_VIEW', 'COVERITY_PASSPHRASE'])
 
     setAllMocks()
 
