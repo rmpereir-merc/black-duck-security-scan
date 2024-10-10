@@ -20,9 +20,9 @@ stages:
   - coverage_report
 #  - Check_dist
 #  - changelog
-  - analysis
-  - sbom
-  - notification
+  #- analysis
+  #- sbom
+  #- notification
 
 
 variables:
