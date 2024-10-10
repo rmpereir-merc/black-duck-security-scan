@@ -54,69 +54,69 @@
     - npm test -- --coverage --collectCoverageFrom='src/**/*.{ts,jxs}'
   coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
 
-#.pop_blackduck_analysis:
-#  image: gcr.io/snps-polaris-ops-prod/ember_cli:3.28.5-node_16.14
-#  extends:
-#    - .pop_blackduck
-#    - .retry
-#  before_script:
-#    - |
-#      apt-get update -y
-#      apt-get install -y rsync make jq
-#
-#.new_pop_blackduck_analysis:
-#  image: gcr.io/snps-polaris-ops-prod/ember_cli:3.28.5-node_16.14
-#  extends:
-#    - .new_pop_blackduck
-#    - .retry
-#  before_script:
-#    - |
-#      apt-get update -y
-#      apt-get install -y rsync make jq python3 python3-pip
-#      pip3 install blackduck requests
-#      export RELEASE_VERSION=`git describe --tags --abbrev=0 2>/dev/null || echo ''`
-#
-#.version:
-#  extends:
-#    - .only
-#  image: gcr.io/snps-polaris-ops-prod/git-semver:1.2.22
-#  cache: {}
-#  before_script:
-#    - |-
-#      if [[ $(git rev-parse --is-shallow-repository) = "true" ]]; then
-#          echo "Shallow repo, fetching with --unshallow"
-#          git fetch --unshallow
-#      else
-#          echo "Not a shallow repo, nothing to do."
-#      fi
-#  script:
-#    - |-
-#      if [[ "$CI_COMMIT_REF_NAME" != "master" && "$CI_COMMIT_REF_NAME" != "main"  ]]; then
-#        if [[ ! -v VERSION_OVERRIDE ]]; then
-#          echo "Versioning not supported on non-master branches without an override present"
-#          exit 1
-#        fi
-#      fi
-#
-#      # if [[ ! -v VERSION_OVERRIDE ]]; then
-#        git-semver get version > version.txt
-#       # git-semver ci tag-commit
-#      # else
-#        echo "Using override version ${VERSION_OVERRIDE}"
-#        # if git rev-parse "$VERSION_OVERRIDE" >/dev/null 2>&1; then
-#         # echo "Version already exists, overwriting version is not supported."
-#         # exit 1
-#       # else
-#          echo $VERSION_OVERRIDE > version.txt
-#         # git-semver ci tag-commit $VERSION_OVERRIDE
-#       # fi
-#      #fi
-#    - VERSION=`cat version.txt`
-#    - echo "Version ${VERSION}"
-#  #    - npm version VERSION
-#  artifacts:
-#    paths:
-#      - version.txt
+.pop_blackduck_analysis:
+  image: gcr.io/snps-polaris-ops-prod/ember_cli:3.28.5-node_16.14
+  extends:
+    - .pop_blackduck
+    - .retry
+  before_script:
+    - |
+      apt-get update -y
+      apt-get install -y rsync make jq 
+
+.new_pop_blackduck_analysis:
+  image: gcr.io/snps-polaris-ops-prod/ember_cli:3.28.5-node_16.14
+  extends:
+    - .new_pop_blackduck
+    - .retry
+  before_script:
+    - |
+      apt-get update -y
+      apt-get install -y rsync make jq python3 python3-pip
+      pip3 install blackduck requests
+      export RELEASE_VERSION=`git describe --tags --abbrev=0 2>/dev/null || echo ''`
+
+.version:
+  extends:
+    - .only
+  image: gcr.io/snps-polaris-ops-prod/git-semver:1.2.22
+  cache: {}
+  before_script:
+    - |-
+      if [[ $(git rev-parse --is-shallow-repository) = "true" ]]; then
+          echo "Shallow repo, fetching with --unshallow"
+          git fetch --unshallow
+      else
+          echo "Not a shallow repo, nothing to do."
+      fi
+  script:
+    - |-
+      if [[ "$CI_COMMIT_REF_NAME" != "master" && "$CI_COMMIT_REF_NAME" != "main"  ]]; then
+        if [[ ! -v VERSION_OVERRIDE ]]; then
+          echo "Versioning not supported on non-master branches without an override present"
+          exit 1
+        fi
+      fi
+
+      # if [[ ! -v VERSION_OVERRIDE ]]; then
+        git-semver get version > version.txt
+       # git-semver ci tag-commit
+      # else
+        echo "Using override version ${VERSION_OVERRIDE}"
+        # if git rev-parse "$VERSION_OVERRIDE" >/dev/null 2>&1; then
+         # echo "Version already exists, overwriting version is not supported."
+         # exit 1
+       # else
+          echo $VERSION_OVERRIDE > version.txt
+         # git-semver ci tag-commit $VERSION_OVERRIDE
+       # fi
+      #fi
+    - VERSION=`cat version.txt`
+    - echo "Version ${VERSION}"
+  #    - npm version VERSION
+  artifacts:
+    paths:
+      - version.txt
 
 #.changelog:
 #  image: node:17-buster-slim
