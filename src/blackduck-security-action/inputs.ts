@@ -24,7 +24,6 @@ export const POLARIS_APPLICATION_NAME = getInput(constants.POLARIS_APPLICATION_N
 export const POLARIS_PROJECT_NAME = getInput(constants.POLARIS_PROJECT_NAME_KEY)?.trim() || ''
 export const POLARIS_ASSESSMENT_TYPES = getInput(constants.POLARIS_ASSESSMENT_TYPES_KEY)?.trim() || ''
 export const POLARIS_SERVER_URL = getInput(constants.POLARIS_SERVERURL_KEY)?.trim() || getInput(constants.POLARIS_SERVER_URL_KEY)?.trim() || ''
-export const POLARIS_TRIAGE = getInput(constants.POLARIS_TRIAGE_KEY)?.trim() || ''
 export const POLARIS_PRCOMMENT_ENABLED = getInput(constants.POLARIS_PRCOMMENT_ENABLED_KEY)?.trim() || ''
 export const POLARIS_PRCOMMENT_SEVERITIES = getInput(constants.POLARIS_PRCOMMENT_SEVERITIES_KEY)?.trim() || ''
 export const POLARIS_BRANCH_NAME = getInput(constants.POLARIS_BRANCH_NAME_KEY)?.trim() || ''
@@ -51,8 +50,6 @@ export const COVERITY_PROJECT_NAME = getInput(constants.COVERITY_PROJECT_NAME_KE
 export const COVERITY_STREAM_NAME = getInput(constants.COVERITY_STREAM_NAME_KEY)?.trim() || ''
 export const COVERITY_INSTALL_DIRECTORY = getInput(constants.COVERITY_INSTALL_DIRECTORY_KEY)?.trim() || ''
 export const COVERITY_POLICY_VIEW = getInput(constants.COVERITY_POLICY_VIEW_KEY)?.trim() || ''
-export const COVERITY_REPOSITORY_NAME = getInput(constants.COVERITY_REPOSITORY_NAME_KEY)?.trim() || ''
-export const COVERITY_BRANCH_NAME = getInput(constants.COVERITY_BRANCH_NAME_KEY)?.trim() || ''
 export const COVERITY_PRCOMMENT_ENABLED = getInput(constants.COVERITY_AUTOMATION_PRCOMMENT_KEY)?.trim() || getInput(constants.COVERITY_PRCOMMENT_ENABLED_KEY)?.trim() || ''
 export const COVERITY_LOCAL = getInput(constants.COVERITY_LOCAL_KEY)?.trim() === 'true' || false
 export const COVERITY_VERSION = getInput(constants.COVERITY_VERSION_KEY)?.trim() || getInput(constants.BRIDGE_COVERITY_VERSION_KEY)?.trim() || ''

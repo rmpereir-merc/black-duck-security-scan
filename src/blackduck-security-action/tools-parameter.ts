@@ -78,9 +78,6 @@ export class BridgeToolsParameter {
       }
     }
 
-    if (inputs.POLARIS_TRIAGE) {
-      polData.data.polaris.triage = inputs.POLARIS_TRIAGE
-    }
     if (inputs.POLARIS_BRANCH_NAME) {
       polData.data.polaris.branch = {name: inputs.POLARIS_BRANCH_NAME}
     }
@@ -279,18 +276,8 @@ export class BridgeToolsParameter {
       covData.data.coverity.waitForScan = parseToBoolean(inputs.COVERITY_WAITFORSCAN)
     }
 
-    if (inputs.COVERITY_REPOSITORY_NAME || inputs.COVERITY_BRANCH_NAME || inputs.PROJECT_DIRECTORY) {
+    if (inputs.PROJECT_DIRECTORY) {
       covData.data.project = {
-        ...(inputs.COVERITY_REPOSITORY_NAME && {
-          repository: {
-            name: inputs.COVERITY_REPOSITORY_NAME
-          }
-        }),
-        ...(inputs.COVERITY_BRANCH_NAME && {
-          branch: {
-            name: inputs.COVERITY_BRANCH_NAME
-          }
-        }),
         ...(inputs.PROJECT_DIRECTORY && {
           directory: inputs.PROJECT_DIRECTORY
         })
