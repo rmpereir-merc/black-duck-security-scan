@@ -59,7 +59,7 @@ code_coverage_job:
   before_script:
     - export PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F= "{ print $2 }" | sed 's/[version:,\",]//g' | tr -d '[[:space:]]')
     - export ARTIFACTORY_UPLOAD_REPO=1
-    - export SBOM_ART_TOKEN_VAULT_PATH=sbom/integrations/github-actions
+    - export SBOM_ART_TOKEN_VAULT_PATH=sbom/integrations/blackduck-security-action
     - export PRODUCT=Integrations
     - export GENERATE_CONFIGURATION_FILE=1
     - export GENERATION_OPTIONS="--entry integrations/mirrored-repos/blackduck-security-action:blackduck-security-action-$PACKAGE_VERSION"
