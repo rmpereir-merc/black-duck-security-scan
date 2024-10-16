@@ -13,7 +13,6 @@ export interface Polaris {
 }
 
 export interface PolarisData extends AsyncMode {
-  triage?: string
   accesstoken: string
   serverUrl: string
   application: {name: string}

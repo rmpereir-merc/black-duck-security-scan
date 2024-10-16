@@ -7,7 +7,7 @@ import * as toolCache from '@actions/tool-cache'
 import * as toolCacheLocal from '../../src/blackduck-security-action/tool-cache-local'
 import * as io from '@actions/io'
 import * as utility from '../../src/blackduck-security-action/utility'
-import {BRIDGE_CLI_DOWNLOAD_URL, POLARIS_APPLICATION_NAME, POLARIS_ASSESSMENT_TYPES, POLARIS_PROJECT_NAME, POLARIS_SERVER_URL, POLARIS_TRIAGE} from '../../src/blackduck-security-action/inputs'
+import {BRIDGE_CLI_DOWNLOAD_URL, POLARIS_APPLICATION_NAME, POLARIS_ASSESSMENT_TYPES, POLARIS_PROJECT_NAME, POLARIS_SERVER_URL} from '../../src/blackduck-security-action/inputs'
 
 const polarisParamsMap: Map<string, string> = new Map<string, string>()
 polarisParamsMap.set('POLARIS_SERVER_URL', 'POLARIS_SERVER_URL')
@@ -15,7 +15,6 @@ polarisParamsMap.set('POLARIS_ACCESS_TOKEN', 'POLARIS_ACCESS_TOKEN')
 polarisParamsMap.set('POLARIS_APPLICATION_NAME', 'POLARIS_APPLICATION_NAME')
 polarisParamsMap.set('POLARIS_PROJECT_NAME', 'POLARIS_PROJECT_NAME')
 polarisParamsMap.set('POLARIS_ASSESSMENT_TYPES', 'SCA,SAST')
-polarisParamsMap.set('POLARIS_TRIAGE', 'NOT_ENTITLED')
 
 describe('Polaris flow contract', () => {
   afterAll(() => {
@@ -39,8 +38,6 @@ describe('Polaris flow contract', () => {
 
   it('With all mandatory fields without Triage', async () => {
     mockBridgeDownloadUrlAndBridgePath()
-    mockPolarisParamsExcept('POLARIS_TRIAGE')
-
     setAllMocks()
 
     try {
