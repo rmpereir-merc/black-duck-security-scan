@@ -80,7 +80,7 @@ export const BLACKDUCKSCA_WAITFORSCAN = getInput(constants.BLACKDUCKSCA_WAITFORS
 export const DETECT_SEARCH_DEPTH = getInput(constants.DETECT_SEARCH_DEPTH_KEY)?.trim() || getInput(constants.BLACKDUCK_SEARCH_DEPTH_KEY)?.trim() || ''
 export const DETECT_CONFIG_PATH = getInput(constants.DETECT_CONFIG_PATH_KEY)?.trim() || getInput(constants.BLACKDUCK_CONFIG_PATH_KEY)?.trim() || ''
 export const DETECT_ARGS = getInput(constants.DETECT_ARGS_KEY)?.trim() || getInput(constants.BLACKDUCK_ARGS_KEY)?.trim() || ''
-export const BLACKDUCKSCA_POLICY_BADGES_CREATE = getInput(constants.BLACKDUCKSCA_POLICY_BADGES_CREATE_KEY)?.trim() === 'true' || false
+export const BLACKDUCKSCA_POLICY_BADGES_CREATE = getInput(constants.BLACKDUCKSCA_POLICY_BADGES_CREATE_KEY)?.trim() || ''
 export const BLACKDUCK_POLICY_BADGES_MAX_COUNT = getInput(constants.BLACKDUCKSCA_POLICY_BADGES_MAX_COUNT_KEY)?.trim() || ''
 export const GITHUB_TOKEN = getInput(constants.GITHUB_TOKEN_KEY)?.trim() || ''
 export const INCLUDE_DIAGNOSTICS = getInput(constants.INCLUDE_DIAGNOSTICS_KEY)?.trim() || ''

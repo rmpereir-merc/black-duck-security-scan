@@ -706,6 +706,26 @@ test('Test getFormattedCommandForBlackduck - badges', () => {
   expect(jsonData.data.blackducksca.policy.badges.maxCount).toBe(5)
 })
 
+test('Test getFormattedCommandForBlackduck - badges if false', () => {
+  Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: 'BLACKDUCKSCA_URL'})
+  Object.defineProperty(inputs, 'BLACKDUCKSCA_TOKEN', {value: 'BLACKDUCKSCA_TOKEN'})
+  Object.defineProperty(inputs, 'DETECT_INSTALL_DIRECTORY', {value: 'DETECT_INSTALL_DIRECTORY'})
+  Object.defineProperty(inputs, 'DETECT_SCAN_FULL', {value: 'TRUE'})
+  Object.defineProperty(inputs, 'BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES', {value: 'BLOCKER, CRITICAL, MAJOR'})
+  Object.defineProperty(inputs, 'BLACKDUCKSCA_POLICY_BADGES_CREATE', {value: false})
+  process.env['GITHUB_SERVER_URL'] = 'https://custom.com'
+  let stp: BridgeToolsParameter = new BridgeToolsParameter(tempPath)
+
+  let resp = stp.getFormattedCommandForBlackduck()
+
+  expect(resp).not.toBeNull()
+  expect(resp).toContain('--stage blackduck')
+
+  const jsonString = fs.readFileSync(tempPath.concat(blackduck_input_file), 'utf-8')
+  const jsonData = JSON.parse(jsonString)
+  expect(jsonData.data.blackducksca.policy.badges.create).toBe(false)
+})
+
 test('Test getFormattedCommandForBlackduck - badges failure (empty github token)', () => {
   Object.defineProperty(inputs, 'GITHUB_TOKEN', {value: ''})
   Object.defineProperty(inputs, 'BLACKDUCKSCA_URL', {value: 'BLACKDUCKSCA_URL'})
