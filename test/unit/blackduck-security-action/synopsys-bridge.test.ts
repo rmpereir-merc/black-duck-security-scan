@@ -250,7 +250,7 @@ test('Latest URL Version success', async () => {
   httpResponse.message.statusCode = 200
   jest.spyOn(HttpClient.prototype, 'get').mockResolvedValueOnce(httpResponse)
 
-  const response = await sb.getBridgeVersionFromLatestURL('https://artifact.com/latest/bridge-cli.zip')
+  const response = await sb.getBridgeVersionFromLatestURL('https://artifact.com/latest/bridge-cli-bundle.zip')
   expect(response).toContain('0.3.1')
 })
 
@@ -266,7 +266,7 @@ test('Latest URL Version success', async () => {
   jest.spyOn(HttpClient.prototype, 'get').mockResolvedValueOnce(httpResponse)
 
   const response = sb.getLatestVersionUrl()
-  expect(response).toContain('latest/bridge-cli')
+  expect(response).toContain('latest/bridge-cli-bundle')
 })
 
 test('Latest URL Version success for MAC ARM arch', async () => {
@@ -292,7 +292,7 @@ test('Latest URL Version success for MAC ARM arch', async () => {
   ])
 
   const response = sb.getLatestVersionUrl()
-  expect(response).toContain('latest/bridge-cli-macos_arm')
+  expect(response).toContain('latest/bridge-cli-bundle-macos_arm')
   Object.defineProperty(process, 'platform', {value: null})
   cpusMock.mockRestore()
 })
@@ -312,7 +312,7 @@ test('Latest url version if not provided', async () => {
 
   const sb = new Bridge()
   jest.spyOn(sb, 'getBridgeVersionFromLatestURL')
-  const response = await sb.getBridgeVersionFromLatestURL('https://artifact.com/latest/bridge-cli.zip')
+  const response = await sb.getBridgeVersionFromLatestURL('https://artifact.com/latest/bridge-cli-bundle.zip')
   expect(response).toContain('')
 })
 
@@ -327,14 +327,14 @@ test('Latest URL Version failure', async () => {
   jest.spyOn(HttpClient.prototype, 'get').mockResolvedValueOnce(httpResponse)
 
   const sb = new Bridge()
-  const response = await sb.getBridgeVersionFromLatestURL('https://artifact.com/latest/bridge-cli.zip')
+  const response = await sb.getBridgeVersionFromLatestURL('https://artifact.com/latest/bridge-cli-bundle.zip')
   expect(response).toContain('')
 })
 
 test('Test fetch version details from BRIDGE_CLI_DOWNLOAD_URL', () => {
   const sb = new Bridge()
   Object.defineProperty(inputs, 'BRIDGE_CLI_DOWNLOAD_VERSION', {value: ''})
-  Object.defineProperty(inputs, 'BRIDGE_CLI_DOWNLOAD_URL', {value: 'https://test-url/bridge-cli-0.1.1-macosx.zip'})
+  Object.defineProperty(inputs, 'BRIDGE_CLI_DOWNLOAD_URL', {value: 'https://test-url/bridge-cli-bundle-0.1.1-macosx.zip'})
 
   const response = sb.downloadBridge('/working_directory')
   expect(response).rejects.toThrowError()
@@ -343,7 +343,7 @@ test('Test fetch version details from BRIDGE_CLI_DOWNLOAD_URL', () => {
 test('Test without version details from BRIDGE_CLI_DOWNLOAD_URL', () => {
   const sb = new Bridge()
   Object.defineProperty(inputs, 'BRIDGE_CLI_DOWNLOAD_VERSION', {value: ''})
-  Object.defineProperty(inputs, 'BRIDGE_CLI_DOWNLOAD_URL', {value: 'https://test-url/bridge-cli-macosx.zip'})
+  Object.defineProperty(inputs, 'BRIDGE_CLI_DOWNLOAD_URL', {value: 'https://test-url/bridge-cli-bundle-macosx.zip'})
   const downloadFileResp: DownloadFileResponse = {filePath: '/user/temp/download/', fileName: 'C:/ser/temp/download/bridge-win.zip'}
 
   jest.spyOn(Bridge.prototype, 'getBridgeVersionFromLatestURL').mockResolvedValueOnce('0.1.0')

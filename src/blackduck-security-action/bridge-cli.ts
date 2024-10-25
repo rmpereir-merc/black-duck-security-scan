@@ -32,8 +32,8 @@ export class Bridge {
     this.bridgeExecutablePath = ''
     this.bridgePath = ''
     this.bridgeArtifactoryURL = constants.BRIDGE_CLI_ARTIFACTORY_URL
-    this.bridgeUrlPattern = this.bridgeArtifactoryURL.concat('$version/bridge-cli-$version-$platform.zip')
-    this.bridgeUrlLatestPattern = this.bridgeArtifactoryURL.concat('latest/bridge-cli-$platform.zip')
+    this.bridgeUrlPattern = this.bridgeArtifactoryURL.concat('$version/bridge-cli-bundle-$version-$platform.zip')
+    this.bridgeUrlLatestPattern = this.bridgeArtifactoryURL.concat('latest/bridge-cli-bundle-$platform.zip')
   }
 
   private getBridgeDefaultPath(): string {
@@ -102,11 +102,11 @@ export class Bridge {
       let bridgeVersion = ''
       if (inputs.BRIDGE_CLI_DOWNLOAD_URL) {
         bridgeUrl = BRIDGE_CLI_DOWNLOAD_URL
-        const versionInfo = bridgeUrl.match('.*bridge-cli-([0-9.]*).*')
+        const versionInfo = bridgeUrl.match('.*bridge-cli-bundle-([0-9.]*).*')
         if (versionInfo != null) {
           bridgeVersion = versionInfo[1]
           if (!bridgeVersion) {
-            const regex = /\w*(bridge-cli-(win64|linux64|macosx|macos_arm).zip)/
+            const regex = /\w*(bridge-cli-bundle-(win64|linux64|macosx|macos_arm).zip)/
             bridgeVersion = await this.getBridgeVersionFromLatestURL(bridgeUrl.replace(regex, 'versions.txt'))
           }
         }
