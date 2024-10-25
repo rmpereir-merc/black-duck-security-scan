@@ -20,6 +20,7 @@ import semver from 'semver'
 export class Bridge {
   bridgeExecutablePath: string
   bridgePath: string
+  bridgeVersion: string
   bridgeArtifactoryURL: string
   bridgeUrlPattern: string
   bridgeUrlLatestPattern: string
@@ -31,6 +32,7 @@ export class Bridge {
   constructor() {
     this.bridgeExecutablePath = ''
     this.bridgePath = ''
+    this.bridgeVersion = ''
     this.bridgeArtifactoryURL = constants.BRIDGE_CLI_ARTIFACTORY_URL
     this.bridgeUrlPattern = this.bridgeArtifactoryURL.concat('$version/bridge-cli-bundle-$version-$platform.zip')
     this.bridgeUrlLatestPattern = this.bridgeArtifactoryURL.concat('latest/bridge-cli-bundle-$platform.zip')
@@ -39,13 +41,13 @@ export class Bridge {
   private getBridgeDefaultPath(): string {
     let bridgeDefaultPath = ''
     const osName = process.platform
-
+    const folderName = 'bridge-cli-bundle-$version-$platform'.replace('$version', this.bridgeVersion).replace('$platform', process.version)
     if (osName === 'darwin') {
-      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_MAC)
+      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_MAC, '/', folderName)
     } else if (osName === 'linux') {
-      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_LINUX)
+      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_LINUX, '\\', folderName)
     } else if (osName === 'win32') {
-      bridgeDefaultPath = path.join(process.env['USERPROFILE'] as string, BRIDGE_CLI_DEFAULT_PATH_WINDOWS)
+      bridgeDefaultPath = path.join(process.env['USERPROFILE'] as string, folderName, BRIDGE_CLI_DEFAULT_PATH_WINDOWS, '/', folderName)
     }
 
     return bridgeDefaultPath
@@ -56,9 +58,6 @@ export class Bridge {
     const osName = process.platform
     let versionFilePath = ''
     let versionFileExists = false
-    const foldername = 'bridge-cli-bundle-$version-$platform'.replace('$version', process.version).replace('$version', process.version)
-    this.bridgePath = this.bridgePath.concat(foldername)
-    debug('updated bridge path {}'.concat(this.bridgePath))
     if (osName === 'win32') {
       versionFilePath = this.bridgePath.concat('\\versions.txt')
       versionFileExists = checkIfPathExists(versionFilePath)
@@ -126,7 +125,7 @@ export class Bridge {
         bridgeVersion = await this.getBridgeVersionFromLatestURL(this.bridgeArtifactoryURL.concat('latest/versions.txt'))
         bridgeUrl = this.getLatestVersionUrl()
       }
-
+      this.bridgeVersion = bridgeVersion
       if (!(await this.checkIfBridgeExists(bridgeVersion))) {
         info('Downloading and configuring Bridge')
         info('Bridge URL is - '.concat(bridgeUrl))
