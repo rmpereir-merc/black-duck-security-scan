@@ -79,6 +79,7 @@ export class Bridge {
     const osName: string = process.platform
     await this.setBridgeExecutablePath()
     debug('Bridge executable path:'.concat(this.bridgePath))
+    debug('Bridge executable path bridgeExecutablePath:'.concat(this.bridgeExecutablePath))
     if (!this.bridgeExecutablePath) {
       throw new Error(constants.BRIDGE_EXECUTABLE_NOT_FOUND_ERROR.concat(this.bridgePath))
     }
