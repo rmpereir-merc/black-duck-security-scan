@@ -56,6 +56,9 @@ export class Bridge {
     const osName = process.platform
     let versionFilePath = ''
     let versionFileExists = false
+    const foldername = 'bridge-cli-bundle-$version-$platform'.replace('$version', process.version).replace('$version', process.version)
+    this.bridgePath = this.bridgePath.concat(foldername)
+    debug('updated bridge path {}'.concat(this.bridgePath))
     if (osName === 'win32') {
       versionFilePath = this.bridgePath.concat('\\versions.txt')
       versionFileExists = checkIfPathExists(versionFilePath)
@@ -378,11 +381,10 @@ export class Bridge {
   }
 
   private async setBridgeExecutablePath(): Promise<void> {
-    const foldername = 'bridge-cli-bundle-$version-$platform'.replace('$version', process.version).replace('$version', process.version)
     if (process.platform === 'win32') {
-      this.bridgeExecutablePath = await tryGetExecutablePath(this.bridgePath + foldername.concat('\\bridge-cli'), ['.exe'])
+      this.bridgeExecutablePath = await tryGetExecutablePath(this.bridgePath.concat('\\bridge-cli'), ['.exe'])
     } else if (process.platform === 'darwin' || process.platform === 'linux') {
-      this.bridgeExecutablePath = await tryGetExecutablePath(this.bridgePath + foldername.concat('/bridge-cli'), [])
+      this.bridgeExecutablePath = await tryGetExecutablePath(this.bridgePath.concat('/bridge-cli'), [])
     }
   }
   private async retrySleepHelper(message: string, retryCountLocal: number, retryDelay: number): Promise<number> {
