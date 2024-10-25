@@ -41,7 +41,7 @@ export class Bridge {
   private getBridgeDefaultPath(): string {
     let bridgeDefaultPath = ''
     const osName = process.platform
-    const folderName = 'bridge-cli-bundle-$version-$platform'.replace('$version', this.bridgeVersion).replace('$platform', process.version)
+    const folderName = 'bridge-cli-bundle-$version-$platform'.replace('$version', this.bridgeVersion).replace('$platform', process.platform)
     if (osName === 'darwin') {
       bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_MAC, '/', folderName)
     } else if (osName === 'linux') {
