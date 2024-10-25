@@ -20,7 +20,6 @@ import semver from 'semver'
 export class Bridge {
   bridgeExecutablePath: string
   bridgePath: string
-  bridgeVersion: string
   bridgeArtifactoryURL: string
   bridgeUrlPattern: string
   bridgeUrlLatestPattern: string
@@ -32,7 +31,6 @@ export class Bridge {
   constructor() {
     this.bridgeExecutablePath = ''
     this.bridgePath = ''
-    this.bridgeVersion = ''
     this.bridgeArtifactoryURL = constants.BRIDGE_CLI_ARTIFACTORY_URL
     this.bridgeUrlPattern = this.bridgeArtifactoryURL.concat('$version/bridge-cli-bundle-$version-$platform.zip')
     this.bridgeUrlLatestPattern = this.bridgeArtifactoryURL.concat('latest/bridge-cli-bundle-$platform.zip')
@@ -41,18 +39,32 @@ export class Bridge {
   private getBridgeDefaultPath(): string {
     let bridgeDefaultPath = ''
     const osName = process.platform
-    const folderName = 'bridge-cli-bundle-$version-$platform'.replace('$version', this.bridgeVersion).replace('$platform', process.platform)
     if (osName === 'darwin') {
-      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_MAC, '/', folderName)
+      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_MAC)
     } else if (osName === 'linux') {
-      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_LINUX, '\\', folderName)
+      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_LINUX)
     } else if (osName === 'win32') {
-      bridgeDefaultPath = path.join(process.env['USERPROFILE'] as string, folderName, BRIDGE_CLI_DEFAULT_PATH_WINDOWS, '/', folderName)
+      bridgeDefaultPath = path.join(process.env['USERPROFILE'] as string, BRIDGE_CLI_DEFAULT_PATH_WINDOWS)
     }
 
     return bridgeDefaultPath
   }
 
+  getPlatform(): string {
+    const osName = process.platform
+
+    let bridgePlatform = ''
+    if (osName === 'darwin') {
+      const isARM = !os.cpus()[0].model.includes('Intel')
+      bridgePlatform = isARM ? this.MAC_ARM_PLATFORM : this.MAC_PLATFORM
+    } else if (osName === 'linux') {
+      bridgePlatform = this.LINUX_PLATFORM
+    } else if (osName === 'win32') {
+      bridgePlatform = this.WINDOWS_PLATFORM
+    }
+
+    return bridgePlatform
+  }
   async checkIfBridgeExists(bridgeVersion: string): Promise<boolean> {
     await this.validateBridgePath()
     const osName = process.platform
@@ -62,6 +74,7 @@ export class Bridge {
       versionFilePath = this.bridgePath.concat('\\versions.txt')
       versionFileExists = checkIfPathExists(versionFilePath)
     } else {
+      info('this.bridgePath.concat version'.concat(this.bridgePath.concat('/versions.txt')))
       versionFilePath = this.bridgePath.concat('/versions.txt')
       versionFileExists = checkIfPathExists(versionFilePath)
     }
@@ -81,7 +94,6 @@ export class Bridge {
     const osName: string = process.platform
     await this.setBridgeExecutablePath()
     debug('Bridge executable path:'.concat(this.bridgePath))
-    debug('Bridge executable path bridgeExecutablePath:'.concat(this.bridgeExecutablePath))
     if (!this.bridgeExecutablePath) {
       throw new Error(constants.BRIDGE_EXECUTABLE_NOT_FOUND_ERROR.concat(this.bridgePath))
     }
@@ -125,7 +137,7 @@ export class Bridge {
         bridgeVersion = await this.getBridgeVersionFromLatestURL(this.bridgeArtifactoryURL.concat('latest/versions.txt'))
         bridgeUrl = this.getLatestVersionUrl()
       }
-      this.bridgeVersion = bridgeVersion
+      info('Downloading and configuring Bridge for bridgeVersion'.concat(bridgeVersion))
       if (!(await this.checkIfBridgeExists(bridgeVersion))) {
         info('Downloading and configuring Bridge')
         info('Bridge URL is - '.concat(bridgeUrl))
@@ -313,7 +325,8 @@ export class Bridge {
   async checkIfVersionExists(bridgeVersion: string, bridgeVersionFilePath: string): Promise<boolean> {
     try {
       const contents = readFileSync(bridgeVersionFilePath, 'utf-8')
-      return contents.includes('Bridge Package: '.concat(bridgeVersion))
+      // return contents.includes('Bridge Package: '.concat(bridgeVersion))
+      return contents.includes('bridge-cli-bundle'.concat(bridgeVersion))
     } catch (e) {
       info('Error reading version file content: '.concat((e as Error).message))
     }
