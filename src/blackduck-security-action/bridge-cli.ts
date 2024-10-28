@@ -154,7 +154,7 @@ export class Bridge {
         bridgeUrl = this.getLatestVersionUrl()
       }
       this.bridgeVersion = bridgeVersion
-      info('Downloading and configuring Bridge for bridgeVersion'.concat(bridgeVersion))
+      info('Downloading and configuring Bridge for bridgeVersion '.concat(bridgeVersion))
       if (!(await this.checkIfBridgeExists(bridgeVersion))) {
         info('Downloading and configuring Bridge')
         info('Bridge URL is - '.concat(bridgeUrl))
@@ -175,7 +175,9 @@ export class Bridge {
         } else if (process.platform === 'darwin' || process.platform === 'linux') {
           folderName = `/${folderName}`
         }
-        this.bridgePath = this.bridgePath.concat(folderName)
+        if (!this.bridgePath.includes(folderName)) {
+          this.bridgePath = this.bridgePath.concat(folderName)
+        }
         info('Download and configuration of Bridge CLI completed')
       } else {
         info('Bridge CLI already exists, download has been skipped')
