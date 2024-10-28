@@ -403,9 +403,9 @@ export class Bridge {
       } else if (process.platform === 'darwin' || process.platform === 'linux') {
         folderName = `/${folderName}`
       }
-      this.bridgePath = BRIDGE_CLI_INSTALL_DIRECTORY_KEY
-      info('check path directory '.concat(this.bridgePath.concat(folderName)))
-      if (!checkIfPathExists(this.bridgePath.concat(folderName))) {
+      this.bridgePath = BRIDGE_CLI_INSTALL_DIRECTORY_KEY.concat(folderName)
+      info('check path directory '.concat(this.bridgePath))
+      if (!checkIfPathExists(this.bridgePath)) {
         throw new Error(constants.BRIDGE_INSTALL_DIRECTORY_NOT_FOUND_ERROR)
       }
     } else {
