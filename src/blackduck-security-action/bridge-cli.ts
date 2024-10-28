@@ -397,8 +397,15 @@ export class Bridge {
   async validateBridgePath(): Promise<void> {
     this.bridgePath = this.getBridgeDefaultPath()
     if (BRIDGE_CLI_INSTALL_DIRECTORY_KEY) {
+      let folderName = 'bridge-cli-bundle-$version-$platform'.replace('$version', this.bridgeVersion).replace('$platform', this.getPlatform())
+      if (process.platform === 'win32') {
+        folderName = `\\${folderName}`
+      } else if (process.platform === 'darwin' || process.platform === 'linux') {
+        folderName = `/${folderName}`
+      }
       this.bridgePath = BRIDGE_CLI_INSTALL_DIRECTORY_KEY
-      if (!checkIfPathExists(this.bridgePath)) {
+      info('check path directory '.concat(this.bridgePath.concat(folderName)))
+      if (!checkIfPathExists(this.bridgePath.concat(folderName))) {
         throw new Error(constants.BRIDGE_INSTALL_DIRECTORY_NOT_FOUND_ERROR)
       }
     } else {
