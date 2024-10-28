@@ -246,7 +246,7 @@ test('Latest URL Version success', async () => {
     message: incomingMessage,
     readBody: jest.fn()
   }
-  httpResponse.readBody.mockResolvedValue('Black Duck Bridge Package: 0.3.1')
+  httpResponse.readBody.mockResolvedValue('bridge-cli-bundle: 0.3.1')
   httpResponse.message.statusCode = 200
   jest.spyOn(HttpClient.prototype, 'get').mockResolvedValueOnce(httpResponse)
 
@@ -261,7 +261,7 @@ test('Latest URL Version success', async () => {
     message: incomingMessage,
     readBody: jest.fn()
   }
-  httpResponse.readBody.mockResolvedValue('Black Duck Bridge Package: 0.3.1')
+  httpResponse.readBody.mockResolvedValue('bridge-cli-bundle: 0.3.1')
   httpResponse.message.statusCode = 200
   jest.spyOn(HttpClient.prototype, 'get').mockResolvedValueOnce(httpResponse)
 
@@ -278,7 +278,7 @@ test('Latest URL Version success for MAC ARM arch', async () => {
     readBody: jest.fn()
   }
 
-  httpResponse.readBody.mockResolvedValue('Black Duck Bridge Package: 2.3.1')
+  httpResponse.readBody.mockResolvedValue('bridge-cli-bundle: 2.3.1')
   httpResponse.message.statusCode = 200
   jest.spyOn(HttpClient.prototype, 'get').mockResolvedValueOnce(httpResponse)
 

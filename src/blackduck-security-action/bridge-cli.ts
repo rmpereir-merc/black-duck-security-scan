@@ -370,9 +370,6 @@ export class Bridge {
         httpResponse = await httpClient.get(latestVersionsUrl, {
           Accept: 'text/html'
         })
-        info('Downloading Bridge latest Versions file URL '.concat(latestVersionsUrl))
-        info('Downloading Bridge latest Versions file retryCountLocal  '.concat(retryCountLocal.toString()))
-        info('Downloading Bridge latest Versions file Body  '.concat((await httpResponse.readBody()).trim()))
         if (!NON_RETRY_HTTP_CODES.has(Number(httpResponse.message.statusCode))) {
           retryDelay = await this.retrySleepHelper('Getting latest Bridge CLI versions has been failed, Retries left: ', retryCountLocal, retryDelay)
           retryCountLocal--
@@ -381,7 +378,7 @@ export class Bridge {
           const htmlResponse = (await httpResponse.readBody()).trim()
           const lines = htmlResponse.split('\n')
           for (const line of lines) {
-            if (line.includes('Bridge Package')) {
+            if (line.includes('bridge-cli-bundle')) {
               return line.split(':')[1].trim()
             }
           }
