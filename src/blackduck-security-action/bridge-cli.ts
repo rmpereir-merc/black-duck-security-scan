@@ -370,7 +370,7 @@ export class Bridge {
         httpResponse = await httpClient.get(latestVersionsUrl, {
           Accept: 'text/html'
         })
-
+        info('Downloading Bridge latest Versions file URL '.concat(latestVersionsUrl))
         if (!NON_RETRY_HTTP_CODES.has(Number(httpResponse.message.statusCode))) {
           retryDelay = await this.retrySleepHelper('Getting latest Bridge CLI versions has been failed, Retries left: ', retryCountLocal, retryDelay)
           retryCountLocal--
