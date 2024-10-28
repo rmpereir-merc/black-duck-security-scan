@@ -169,7 +169,13 @@ export class Bridge {
           }
         }
         await extractZipped(downloadResponse.filePath, extractZippedFilePath)
-
+        let folderName = 'bridge-cli-bundle-$version-$platform'.replace('$version', this.bridgeVersion).replace('$platform', this.getPlatform())
+        if (process.platform === 'win32') {
+          folderName = `\\${folderName}`
+        } else if (process.platform === 'darwin' || process.platform === 'linux') {
+          folderName = `/${folderName}`
+        }
+        this.bridgePath = this.bridgePath.concat(folderName)
         info('Download and configuration of Bridge CLI completed')
       } else {
         info('Bridge CLI already exists, download has been skipped')
