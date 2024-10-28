@@ -20,6 +20,7 @@ import semver from 'semver'
 export class Bridge {
   bridgeExecutablePath: string
   bridgePath: string
+  bridgeVersion: string
   bridgeArtifactoryURL: string
   bridgeUrlPattern: string
   bridgeUrlLatestPattern: string
@@ -31,12 +32,13 @@ export class Bridge {
   constructor() {
     this.bridgeExecutablePath = ''
     this.bridgePath = ''
+    this.bridgeVersion = ''
     this.bridgeArtifactoryURL = constants.BRIDGE_CLI_ARTIFACTORY_URL
     this.bridgeUrlPattern = this.bridgeArtifactoryURL.concat('$version/bridge-cli-bundle-$version-$platform.zip')
     this.bridgeUrlLatestPattern = this.bridgeArtifactoryURL.concat('latest/bridge-cli-bundle-$platform.zip')
   }
 
-  private getBridgeDefaultPath(): string {
+  private getBridgeDownloadDefaultPath(): string {
     let bridgeDefaultPath = ''
     const osName = process.platform
     if (osName === 'darwin') {
@@ -50,9 +52,23 @@ export class Bridge {
     return bridgeDefaultPath
   }
 
+  private getBridgeDefaultPath(): string {
+    let bridgeDefaultPath = ''
+    const osName = process.platform
+    const folderName = 'bridge-cli-bundle-$version-$platform'.replace('$version', this.bridgeVersion).replace('$platform', this.getPlatform())
+    if (osName === 'darwin') {
+      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_MAC, '/', folderName)
+    } else if (osName === 'linux') {
+      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_LINUX, '\\', folderName)
+    } else if (osName === 'win32') {
+      bridgeDefaultPath = path.join(process.env['USERPROFILE'] as string, BRIDGE_CLI_DEFAULT_PATH_WINDOWS, '/', folderName)
+    }
+
+    return bridgeDefaultPath
+  }
+
   getPlatform(): string {
     const osName = process.platform
-
     let bridgePlatform = ''
     if (osName === 'darwin') {
       const isARM = !os.cpus()[0].model.includes('Intel')
@@ -91,6 +107,7 @@ export class Bridge {
   }
 
   async executeBridgeCommand(bridgeCommand: string, workingDirectory: string): Promise<number> {
+    process.env['BRIDGE_CACHE_DIR'] = this.bridgePath
     const osName: string = process.platform
     await this.setBridgeExecutablePath()
     debug('Bridge executable path:'.concat(this.bridgePath))
@@ -137,12 +154,13 @@ export class Bridge {
         bridgeVersion = await this.getBridgeVersionFromLatestURL(this.bridgeArtifactoryURL.concat('latest/versions.txt'))
         bridgeUrl = this.getLatestVersionUrl()
       }
+      this.bridgeVersion = bridgeVersion
       info('Downloading and configuring Bridge for bridgeVersion'.concat(bridgeVersion))
       if (!(await this.checkIfBridgeExists(bridgeVersion))) {
         info('Downloading and configuring Bridge')
         info('Bridge URL is - '.concat(bridgeUrl))
         const downloadResponse: DownloadFileResponse = await getRemoteFile(tempDir, bridgeUrl)
-        const extractZippedFilePath: string = BRIDGE_CLI_INSTALL_DIRECTORY_KEY || this.getBridgeDefaultPath()
+        const extractZippedFilePath: string = BRIDGE_CLI_INSTALL_DIRECTORY_KEY || this.getBridgeDownloadDefaultPath()
 
         // Clear the existing bridge, if available
         if (fs.existsSync(extractZippedFilePath)) {
@@ -325,9 +343,6 @@ export class Bridge {
   async checkIfVersionExists(bridgeVersion: string, bridgeVersionFilePath: string): Promise<boolean> {
     try {
       const contents = readFileSync(bridgeVersionFilePath, 'utf-8')
-      // return contents.includes('Bridge Package: '.concat(bridgeVersion))
-      info('contents: '.concat(contents))
-      info('contents: '.concat(String(contents.includes('bridge-cli-bundle: '.concat(bridgeVersion)))))
       return contents.includes('bridge-cli-bundle: '.concat(bridgeVersion))
     } catch (e) {
       info('Error reading version file content: '.concat((e as Error).message))
