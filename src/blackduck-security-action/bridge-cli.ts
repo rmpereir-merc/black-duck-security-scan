@@ -53,6 +53,19 @@ export class Bridge {
 
     return bridgeDefaultPath
   }
+  private getBridgeDownloadDefaultPath1(): string {
+    let bridgeDefaultPath = ''
+    const osName = process.platform
+    if (osName === 'darwin') {
+      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_MAC)
+    } else if (osName === 'linux') {
+      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_LINUX)
+    } else if (osName === 'win32') {
+      bridgeDefaultPath = path.join(process.env['USERPROFILE'] as string, BRIDGE_CLI_DEFAULT_PATH_WINDOWS)
+    }
+
+    return bridgeDefaultPath
+  }
 
   private getBridgeDefaultPath(): string {
     let bridgeDefaultPath = ''
@@ -168,7 +181,7 @@ export class Bridge {
         info('Downloading and configuring Bridge')
         info('Bridge URL is - '.concat(bridgeUrl))
         const downloadResponse: DownloadFileResponse = await getRemoteFile(tempDir, bridgeUrl)
-        const extractZippedFilePath: string = BRIDGE_CLI_INSTALL_DIRECTORY_KEY || this.getBridgeDownloadDefaultPath()
+        const extractZippedFilePath: string = BRIDGE_CLI_INSTALL_DIRECTORY_KEY || this.getBridgeDownloadDefaultPath1()
 
         // Clear the existing bridge, if available
         if (fs.existsSync(extractZippedFilePath)) {
@@ -178,18 +191,19 @@ export class Bridge {
           }
         }
         await extractZipped(downloadResponse.filePath, extractZippedFilePath)
-        const sourceFile = extractZippedFilePath.concat(downloadResponse.filePath.split('/').pop() as string)
-        info('sourceFile  --> '.concat(sourceFile.split('.')[0]))
-        info('Destination  --> '.concat(extractZippedFilePath))
-        fs.renameSync(sourceFile.split('.')[0], extractZippedFilePath)
-        info('rename done to   --> '.concat(extractZippedFilePath.concat('bridge-cli-bundle')))
-        let folderName = 'bridge-cli-bundle'
+        let pathSeprator = ''
         if (process.platform === 'win32') {
-          folderName = `\\${folderName}`
+          pathSeprator = `\\`
         } else if (process.platform === 'darwin' || process.platform === 'linux') {
-          folderName = `/${folderName}`
+          pathSeprator = `/`
         }
-        this.bridgePath = this.bridgePath.concat(folderName)
+        let sourceFile = extractZippedFilePath.concat(pathSeprator).concat(downloadResponse.filePath.split('/').pop() as string)
+        sourceFile = sourceFile.split('.')[0]
+        info('sourceFile  --> '.concat(sourceFile))
+        info('Destination  --> '.concat(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle')))
+        fs.renameSync(sourceFile, extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle'))
+        info('rename done to   --> '.concat(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle')))
+        this.bridgePath = this.bridgePath.concat(pathSeprator)
         info('bridgePath   --> '.concat(this.bridgePath))
         // let folderName = 'bridge-cli-bundle-$version-$platform'.replace('$version', this.bridgeVersion).replace('$platform', this.getPlatform())
         // if (bridgeUrl.includes('/latest/')) {
