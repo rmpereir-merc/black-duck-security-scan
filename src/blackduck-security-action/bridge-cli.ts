@@ -40,7 +40,7 @@ export class Bridge {
     this.bridgeUrlLatestPattern = this.bridgeArtifactoryURL.concat('latest/bridge-cli-bundle-$platform.zip')
   }
 
-  private getBridgeDownloadDefaultPath(): string {
+  private getBridgeDefaultPath(): string {
     let bridgeDefaultPath = ''
     const osName = process.platform
     if (osName === 'darwin') {
@@ -53,7 +53,7 @@ export class Bridge {
 
     return bridgeDefaultPath
   }
-  private getBridgeDownloadDefaultPath1(): string {
+  private getBridgeDownloadDefaultPath(): string {
     let bridgeDefaultPath = ''
     const osName = process.platform
     if (osName === 'darwin') {
@@ -67,41 +67,41 @@ export class Bridge {
     return bridgeDefaultPath
   }
 
-  private getBridgeDefaultPath(): string {
-    let bridgeDefaultPath = ''
-    const osName = process.platform
-    let folderName = 'bridge-cli-bundle-$version-$platform'.replace('$version', this.bridgeVersion).replace('$platform', this.getPlatform())
-    if (this.bridgeUrl.includes('/latest/')) {
-      folderName = 'bridge-cli-bundle-$platform'.replace('$platform', this.getPlatform())
-    }
-    if (ENABLE_NETWORK_AIR_GAP) {
-      folderName = 'bridge-cli-bundle'
-    }
-    if (osName === 'darwin') {
-      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_MAC, '/', folderName)
-    } else if (osName === 'linux') {
-      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_LINUX, '\\', folderName)
-    } else if (osName === 'win32') {
-      bridgeDefaultPath = path.join(process.env['USERPROFILE'] as string, BRIDGE_CLI_DEFAULT_PATH_WINDOWS, '/', folderName)
-    }
-    info('bridgeDefaultPath - '.concat(bridgeDefaultPath))
-    return bridgeDefaultPath
-  }
-
-  getPlatform(): string {
-    const osName = process.platform
-    let bridgePlatform = ''
-    if (osName === 'darwin') {
-      const isARM = !os.cpus()[0].model.includes('Intel')
-      bridgePlatform = isARM ? this.MAC_ARM_PLATFORM : this.MAC_PLATFORM
-    } else if (osName === 'linux') {
-      bridgePlatform = this.LINUX_PLATFORM
-    } else if (osName === 'win32') {
-      bridgePlatform = this.WINDOWS_PLATFORM
-    }
-
-    return bridgePlatform
-  }
+  // /*private getBridgeDefaultPath(): string {
+  //   let bridgeDefaultPath = ''
+  //   const osName = process.platform
+  //   let folderName = 'bridge-cli-bundle-$version-$platform'.replace('$version', this.bridgeVersion).replace('$platform', this.getPlatform())
+  //   if (this.bridgeUrl.includes('/latest/')) {
+  //     folderName = 'bridge-cli-bundle-$platform'.replace('$platform', this.getPlatform())
+  //   }
+  //   if (ENABLE_NETWORK_AIR_GAP) {
+  //     folderName = 'bridge-cli-bundle'
+  //   }
+  //   if (osName === 'darwin') {
+  //     bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_MAC, '/', folderName)
+  //   } else if (osName === 'linux') {
+  //     bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_LINUX, '\\', folderName)
+  //   } else if (osName === 'win32') {
+  //     bridgeDefaultPath = path.join(process.env['USERPROFILE'] as string, BRIDGE_CLI_DEFAULT_PATH_WINDOWS, '/', folderName)
+  //   }
+  //   info('bridgeDefaultPath - '.concat(bridgeDefaultPath))
+  //   return bridgeDefaultPath
+  // }
+  //
+  // getPlatform(): string {
+  //   const osName = process.platform
+  //   let bridgePlatform = ''
+  //   if (osName === 'darwin') {
+  //     const isARM = !os.cpus()[0].model.includes('Intel')
+  //     bridgePlatform = isARM ? this.MAC_ARM_PLATFORM : this.MAC_PLATFORM
+  //   } else if (osName === 'linux') {
+  //     bridgePlatform = this.LINUX_PLATFORM
+  //   } else if (osName === 'win32') {
+  //     bridgePlatform = this.WINDOWS_PLATFORM
+  //   }
+  //
+  //   return bridgePlatform
+  // }*/
   async checkIfBridgeExists(bridgeVersion: string): Promise<boolean> {
     await this.validateBridgePath()
     const osName = process.platform
@@ -181,7 +181,7 @@ export class Bridge {
         info('Downloading and configuring Bridge')
         info('Bridge URL is - '.concat(bridgeUrl))
         const downloadResponse: DownloadFileResponse = await getRemoteFile(tempDir, bridgeUrl)
-        const extractZippedFilePath: string = BRIDGE_CLI_INSTALL_DIRECTORY_KEY || this.getBridgeDownloadDefaultPath1()
+        const extractZippedFilePath: string = BRIDGE_CLI_INSTALL_DIRECTORY_KEY || this.getBridgeDownloadDefaultPath()
 
         // Clear the existing bridge, if available
         if (fs.existsSync(extractZippedFilePath)) {
@@ -201,6 +201,7 @@ export class Bridge {
         sourceFile = sourceFile.split('.')[0]
         info('sourceFile  --> '.concat(sourceFile))
         info('Destination  --> '.concat(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle')))
+        fs.rmdirSync(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle'))
         fs.renameSync(sourceFile, extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle'))
         info('rename done to   --> '.concat(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle')))
         this.bridgePath = this.bridgePath.concat(pathSeprator)
@@ -400,7 +401,7 @@ export class Bridge {
     let bridgePath = BRIDGE_CLI_INSTALL_DIRECTORY_KEY
 
     if (!bridgePath) {
-      bridgePath = this.getBridgeDownloadDefaultPath()
+      bridgePath = this.getBridgeDefaultPath()
     }
     return bridgePath
   }
@@ -441,7 +442,7 @@ export class Bridge {
   }
 
   async validateBridgePath(): Promise<void> {
-    this.bridgePath = this.getBridgeDownloadDefaultPath()
+    this.bridgePath = this.getBridgeDefaultPath()
     if (BRIDGE_CLI_INSTALL_DIRECTORY_KEY) {
       this.bridgePath = BRIDGE_CLI_INSTALL_DIRECTORY_KEY
       // if (!checkIfPathExists(this.bridgePath)) {
@@ -465,7 +466,7 @@ export class Bridge {
         throw new Error(constants.BRIDGE_INSTALL_DIRECTORY_NOT_FOUND_ERROR)
       }
     } else {
-      if (ENABLE_NETWORK_AIR_GAP && !checkIfPathExists(this.getBridgeDownloadDefaultPath())) {
+      if (ENABLE_NETWORK_AIR_GAP && !checkIfPathExists(this.getBridgeDefaultPath())) {
         throw new Error(constants.BRIDGE_DEFAULT_DIRECTORY_NOT_FOUND_ERROR)
       }
     }
