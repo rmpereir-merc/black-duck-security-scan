@@ -179,9 +179,9 @@ export class Bridge {
         }
         await extractZipped(downloadResponse.filePath, extractZippedFilePath)
         const sourceFile = extractZippedFilePath.concat(downloadResponse.filePath.split('/').pop() as string)
-        info('sourceFile  --> '.concat(sourceFile))
-        info('Destination  --> '.concat(extractZippedFilePath.concat('bridge-cli-bundle')))
-        fs.renameSync(sourceFile, extractZippedFilePath.concat('bridge-cli-bundle'))
+        info('sourceFile  --> '.concat(sourceFile.split('.')[0]))
+        info('Destination  --> '.concat(extractZippedFilePath))
+        fs.renameSync(sourceFile.split('.')[0], extractZippedFilePath)
         info('rename done to   --> '.concat(extractZippedFilePath.concat('bridge-cli-bundle')))
         let folderName = 'bridge-cli-bundle'
         if (process.platform === 'win32') {
