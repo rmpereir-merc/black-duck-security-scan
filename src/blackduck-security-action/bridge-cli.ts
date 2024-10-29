@@ -160,7 +160,7 @@ export class Bridge {
         sourceFile = sourceFile.split('.')[0]
         debug('Rename folder from '.concat(sourceFile).concat(' to ').concat(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle')))
         fs.renameSync(sourceFile, extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle'))
-        this.bridgePath = this.bridgePath.concat(pathSeprator)
+        this.bridgePath = this.bridgePath.concat(pathSeprator).concat('bridge-cli-bundle')
         info('Download and configuration of Bridge CLI completed')
       } else {
         info('Bridge CLI already exists, download has been skipped')
