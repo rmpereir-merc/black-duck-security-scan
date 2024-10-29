@@ -388,15 +388,17 @@ export class Bridge {
     this.bridgePath = this.getBridgeDefaultPath()
     if (BRIDGE_CLI_INSTALL_DIRECTORY_KEY) {
       this.bridgePath = BRIDGE_CLI_INSTALL_DIRECTORY_KEY
+      if (!checkIfPathExists(this.bridgePath)) {
+        throw new Error(constants.BRIDGE_INSTALL_DIRECTORY_NOT_FOUND_ERROR)
+      }
       let folderName = 'bridge-cli-bundle'
       if (process.platform === 'win32') {
         folderName = `\\${folderName}`
       } else if (process.platform === 'darwin' || process.platform === 'linux') {
         folderName = `/${folderName}`
       }
-      this.bridgePath = BRIDGE_CLI_INSTALL_DIRECTORY_KEY.concat(folderName)
-      if (!checkIfPathExists(this.bridgePath)) {
-        throw new Error(constants.BRIDGE_INSTALL_DIRECTORY_NOT_FOUND_ERROR)
+      if (checkIfPathExists(BRIDGE_CLI_INSTALL_DIRECTORY_KEY.concat(folderName))) {
+        this.bridgePath = BRIDGE_CLI_INSTALL_DIRECTORY_KEY.concat(folderName)
       }
     } else {
       if (ENABLE_NETWORK_AIR_GAP && !checkIfPathExists(this.getBridgeDefaultPath())) {
