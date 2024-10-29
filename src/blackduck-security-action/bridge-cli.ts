@@ -180,9 +180,14 @@ export class Bridge {
       if (!(await this.checkIfBridgeExists(bridgeVersion))) {
         info('Downloading and configuring Bridge')
         info('Bridge URL is - '.concat(bridgeUrl))
-        const downloadResponse: DownloadFileResponse = await getRemoteFile(tempDir, bridgeUrl)
         const extractZippedFilePath: string = BRIDGE_CLI_INSTALL_DIRECTORY_KEY || this.getBridgeDownloadDefaultPath()
-
+        fs.rm(extractZippedFilePath, {recursive: true, force: true}, err => {
+          if (err) {
+            throw err
+          }
+          info(`${extractZippedFilePath} is deleted!`)
+        })
+        const downloadResponse: DownloadFileResponse = await getRemoteFile(tempDir, bridgeUrl)
         // Clear the existing bridge, if available
         info('Clear the existing bridge, if available'.concat(extractZippedFilePath))
         if (fs.existsSync(extractZippedFilePath)) {
