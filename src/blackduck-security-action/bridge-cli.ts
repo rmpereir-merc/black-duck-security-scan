@@ -184,9 +184,12 @@ export class Bridge {
         const extractZippedFilePath: string = BRIDGE_CLI_INSTALL_DIRECTORY_KEY || this.getBridgeDownloadDefaultPath()
 
         // Clear the existing bridge, if available
+        info('Clear the existing bridge, if available'.concat(extractZippedFilePath))
         if (fs.existsSync(extractZippedFilePath)) {
+          info('Inside Clear the existing bridge, if available')
           const files: string[] = fs.readdirSync(extractZippedFilePath)
           for (const file of files) {
+            info('Removing file --> '.concat(file))
             await rmRF(file)
           }
         }
@@ -201,7 +204,6 @@ export class Bridge {
         sourceFile = sourceFile.split('.')[0]
         info('sourceFile  --> '.concat(sourceFile))
         info('Destination  --> '.concat(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle')))
-        fs.rmdirSync(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle'))
         fs.renameSync(sourceFile, extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle'))
         info('rename done to   --> '.concat(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle')))
         this.bridgePath = this.bridgePath.concat(pathSeprator)
