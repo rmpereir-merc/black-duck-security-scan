@@ -147,15 +147,15 @@ export class Bridge {
         const extractZippedFilePath: string = BRIDGE_CLI_INSTALL_DIRECTORY_KEY || this.getBridgeDownloadDefaultPath()
         this.bridgePath = extractZippedFilePath
         // Clear the existing bridge, if available so we will not have duplicate or extra bridge folder
-        info('Clear the existing bridge folder, if available')
-        if (fs.existsSync(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle'))) {
-          fs.rm(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle'), {recursive: true, force: true}, err => {
-            if (err) {
-              throw err
-            }
-            info(`${extractZippedFilePath} is deleted!`)
-          })
-        }
+        // info('Clear the existing bridge folder, if available')
+        // if (fs.existsSync(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle'))) {
+        //   fs.rm(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle'), {recursive: true, force: true}, err => {
+        //     if (err) {
+        //       throw err
+        //     }
+        //     info(`${extractZippedFilePath} is deleted!`)
+        //   })
+        // }
         await extractZipped(downloadResponse.filePath, extractZippedFilePath)
         let sourceFile = extractZippedFilePath.concat(pathSeprator).concat(downloadResponse.filePath.split('/').pop() as string)
         sourceFile = sourceFile.split('.')[0]

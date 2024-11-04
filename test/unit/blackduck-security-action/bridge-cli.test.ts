@@ -351,6 +351,8 @@ test('Test without version details from BRIDGE_CLI_DOWNLOAD_URL', () => {
   jest.spyOn(downloadUtility, 'getRemoteFile').mockResolvedValueOnce(downloadFileResp)
   fs.existsSync = jest.fn()
   fs.existsSync.mockReturnValueOnce(false)
+  fs.renameSync = jest.fn()
+  fs.renameSync.mockReturnValueOnce()
 
   try {
     sb.downloadBridge('/working_directory')
