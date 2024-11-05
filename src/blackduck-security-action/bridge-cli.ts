@@ -6,7 +6,7 @@ import {tryGetExecutablePath} from '@actions/io/lib/io-util'
 import path from 'path'
 import {checkIfPathExists, cleanupTempDir, sleep} from './utility'
 import * as inputs from './inputs'
-import {DownloadFileResponse, extractZipped, getRemoteFile} from './download-utility'
+import {DownloadFileResponse, extractZipped, getRemoteFile, removeOldBridge} from './download-utility'
 import fs, {readFileSync} from 'fs'
 import {validateBlackDuckInputs, validateCoverityInputs, validatePolarisInputs, validateSRMInputs, validateScanTypes} from './validators'
 import {BridgeToolsParameter} from './tools-parameter'
@@ -137,6 +137,7 @@ export class Bridge {
       info('Downloading and configuring Bridge for bridgeVersion '.concat(bridgeVersion))
       if (!(await this.checkIfBridgeExists(bridgeVersion))) {
         info('Downloading and configuring Bridge')
+        info('Bridge URL is - '.concat(bridgeUrl))
         const downloadResponse: DownloadFileResponse = await getRemoteFile(tempDir, bridgeUrl)
         let pathSeprator = ''
         if (process.platform === 'win32') {
@@ -149,12 +150,7 @@ export class Bridge {
         // Clear the existing bridge, if available so we will not have duplicate or extra bridge folder
         info('Clear the existing bridge folder, if available')
         if (fs.existsSync(this.bridgePath)) {
-          fs.rm(this.bridgePath, {recursive: true, force: true}, err => {
-            if (err) {
-              throw err
-            }
-            debug(`${this.bridgePath} is deleted!`)
-          })
+          await removeOldBridge(this.bridgePath)
         }
         await extractZipped(downloadResponse.filePath, extractZippedFilePath)
         const sourceFile = extractZippedFilePath
