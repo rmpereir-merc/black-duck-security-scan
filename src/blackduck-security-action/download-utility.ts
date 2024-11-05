@@ -1,4 +1,4 @@
-import {debug, info} from '@actions/core'
+import {info} from '@actions/core'
 import path from 'path'
 import {extractZip} from '@actions/tool-cache'
 import {downloadTool} from './tool-cache-local'
@@ -55,13 +55,4 @@ export async function extractZipped(file: string, destinationPath: string): Prom
   } catch (error) {
     return Promise.reject(error)
   }
-}
-export async function removeOldBridge(bridgePath: string): Promise<boolean> {
-  fs.rm(bridgePath, {recursive: true, force: true}, err => {
-    if (err) {
-      throw err
-    }
-    debug(`${bridgePath} is deleted!`)
-  })
-  return Promise.resolve(true)
 }

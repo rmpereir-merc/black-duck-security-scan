@@ -6,7 +6,7 @@ import {tryGetExecutablePath} from '@actions/io/lib/io-util'
 import path from 'path'
 import {checkIfPathExists, cleanupTempDir, sleep} from './utility'
 import * as inputs from './inputs'
-import {DownloadFileResponse, extractZipped, getRemoteFile, removeOldBridge} from './download-utility'
+import {DownloadFileResponse, extractZipped, getRemoteFile} from './download-utility'
 import fs, {readFileSync} from 'fs'
 import {validateBlackDuckInputs, validateCoverityInputs, validatePolarisInputs, validateSRMInputs, validateScanTypes} from './validators'
 import {BridgeToolsParameter} from './tools-parameter'
@@ -15,6 +15,7 @@ import {HttpClient} from 'typed-rest-client/HttpClient'
 import DomParser from 'dom-parser'
 import os from 'os'
 import semver from 'semver'
+import {rmRF} from '@actions/io'
 
 export class Bridge {
   bridgeExecutablePath: string
@@ -150,7 +151,13 @@ export class Bridge {
         // Clear the existing bridge, if available so we will not have duplicate or extra bridge folder
         info('Clear the existing bridge folder, if available '.concat(this.bridgePath))
         if (fs.existsSync(this.bridgePath)) {
-          await removeOldBridge(this.bridgePath)
+          await rmRF(this.bridgePath)
+          // fs.rm(this.bridgePath, {recursive: true, force: true}, err => {
+          //   if (err) {
+          //     throw err
+          //   }
+          //   info(`${this.bridgePath} is deleted!`)
+          // })
         }
         await extractZipped(downloadResponse.filePath, extractZippedFilePath)
         const sourceFile = extractZippedFilePath
