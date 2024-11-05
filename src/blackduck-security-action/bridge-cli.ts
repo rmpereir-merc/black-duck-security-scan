@@ -135,9 +135,8 @@ export class Bridge {
         bridgeVersion = await this.getBridgeVersionFromLatestURL(this.bridgeArtifactoryURL.concat('latest/versions.txt'))
         bridgeUrl = this.getLatestVersionUrl()
       }
-      info('Downloading and configuring Bridge for bridgeVersion '.concat(bridgeVersion))
       if (!(await this.checkIfBridgeExists(bridgeVersion))) {
-        info('Downloading and configuring Bridge')
+        info('Downloading and configuring Bridge for Version '.concat(bridgeVersion))
         info('Bridge URL is - '.concat(bridgeUrl))
         const downloadResponse: DownloadFileResponse = await getRemoteFile(tempDir, bridgeUrl)
         let pathSeprator = ''
@@ -147,18 +146,18 @@ export class Bridge {
           pathSeprator = `/`
         }
         const extractZippedFilePath: string = BRIDGE_CLI_INSTALL_DIRECTORY_KEY || this.getBridgeDownloadDefaultPath()
-        this.bridgePath = extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle-').concat(this.getOSPlatform())
+        this.bridgePath = path.join(extractZippedFilePath, 'bridge-cli-bundle-'.concat(this.getOSPlatform()))
         // Clear the existing bridge, if available so we will not have duplicate or extra bridge folder
-        info('Clear the existing bridge folder, if available '.concat(this.bridgePath))
+        info('Clear the existing bridge folder, if available from '.concat(this.bridgePath))
         if (fs.existsSync(this.bridgePath)) {
           await rmRF(this.bridgePath)
         }
         await extractZipped(downloadResponse.filePath, extractZippedFilePath)
         const sourceFile = extractZippedFilePath
           .concat(pathSeprator)
-          .concat(downloadResponse.filePath.split('/').pop() as string)
+          .concat(downloadResponse.filePath.split(pathSeprator).pop() as string)
           .split('.zip')[0]
-        debug('Rename folder from '.concat(sourceFile).concat(' to ').concat(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle-').concat(this.getOSPlatform())))
+        debug('Rename folder from '.concat(sourceFile).concat(' to ').concat(this.bridgePath))
         fs.renameSync(sourceFile, this.bridgePath)
         info('Download and configuration of Bridge CLI completed')
       } else {
