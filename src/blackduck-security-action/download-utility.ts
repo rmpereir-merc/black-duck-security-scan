@@ -57,9 +57,9 @@ export async function extractZipped(file: string, destinationPath: string): Prom
   }
 }
 export async function removeOldBridge(bridgePath: string): Promise<boolean> {
-  fs.rm(bridgePath, {recursive: true, force: true}, async err => {
+  fs.rm(bridgePath, {recursive: true, force: true}, err => {
     if (err) {
-      return Promise.reject(new Error('Error while cleaning up the directory'))
+      throw err
     }
     debug(`${bridgePath} is deleted!`)
   })
