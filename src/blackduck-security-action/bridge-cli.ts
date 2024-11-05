@@ -8,7 +8,6 @@ import {checkIfPathExists, cleanupTempDir, sleep} from './utility'
 import * as inputs from './inputs'
 import {DownloadFileResponse, extractZipped, getRemoteFile} from './download-utility'
 import fs, {readFileSync} from 'fs'
-// import {rmRF} from '@actions/io'
 import {validateBlackDuckInputs, validateCoverityInputs, validatePolarisInputs, validateSRMInputs, validateScanTypes} from './validators'
 import {BridgeToolsParameter} from './tools-parameter'
 import * as constants from '../application-constants'
@@ -38,13 +37,14 @@ export class Bridge {
 
   private getBridgeDefaultPath(): string {
     let bridgeDefaultPath = ''
+    const subFolder = 'bridge-cli-bundle-'.concat(this.getOSPlatform())
     const osName = process.platform
     if (osName === 'darwin') {
-      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_MAC, 'bridge-cli-bundle')
+      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_MAC, subFolder)
     } else if (osName === 'linux') {
-      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_LINUX, 'bridge-cli-bundle')
+      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_LINUX, subFolder)
     } else if (osName === 'win32') {
-      bridgeDefaultPath = path.join(process.env['USERPROFILE'] as string, BRIDGE_CLI_DEFAULT_PATH_WINDOWS, 'bridge-cli-bundle')
+      bridgeDefaultPath = path.join(process.env['USERPROFILE'] as string, BRIDGE_CLI_DEFAULT_PATH_WINDOWS, subFolder)
     }
 
     return bridgeDefaultPath
@@ -145,23 +145,24 @@ export class Bridge {
           pathSeprator = `/`
         }
         const extractZippedFilePath: string = BRIDGE_CLI_INSTALL_DIRECTORY_KEY || this.getBridgeDownloadDefaultPath()
-        this.bridgePath = extractZippedFilePath
+        this.bridgePath = extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle-').concat(this.getOSPlatform())
         // Clear the existing bridge, if available so we will not have duplicate or extra bridge folder
-        // info('Clear the existing bridge folder, if available')
-        // if (fs.existsSync(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle'))) {
-        //   fs.rm(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle'), {recursive: true, force: true}, err => {
-        //     if (err) {
-        //       throw err
-        //     }
-        //     info(`${extractZippedFilePath} is deleted!`)
-        //   })
-        // }
+        info('Clear the existing bridge folder, if available')
+        if (fs.existsSync(this.bridgePath)) {
+          fs.rm(this.bridgePath, {recursive: true, force: true}, err => {
+            if (err) {
+              throw err
+            }
+            debug(`${this.bridgePath} is deleted!`)
+          })
+        }
         await extractZipped(downloadResponse.filePath, extractZippedFilePath)
-        let sourceFile = extractZippedFilePath.concat(pathSeprator).concat(downloadResponse.filePath.split('/').pop() as string)
-        sourceFile = sourceFile.split('.')[0]
-        debug('Rename folder from '.concat(sourceFile).concat(' to ').concat(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle')))
-        fs.renameSync(sourceFile, extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle'))
-        this.bridgePath = this.bridgePath.concat(pathSeprator).concat('bridge-cli-bundle')
+        const sourceFile = extractZippedFilePath
+          .concat(pathSeprator)
+          .concat(downloadResponse.filePath.split('/').pop() as string)
+          .split('.')[0]
+        debug('Rename folder from '.concat(sourceFile).concat(' to ').concat(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle-').concat(this.getOSPlatform())))
+        fs.renameSync(sourceFile, this.bridgePath)
         info('Download and configuration of Bridge CLI completed')
       } else {
         info('Bridge CLI already exists, download has been skipped')
@@ -330,6 +331,19 @@ export class Bridge {
 
     return bridgeDownloadUrl
   }
+  getOSPlatform(): string {
+    const osName = process.platform
+    let osPlatform = ''
+    if (osName === 'darwin') {
+      const isARM = !os.cpus()[0].model.includes('Intel')
+      osPlatform = isARM ? this.MAC_ARM_PLATFORM : this.MAC_PLATFORM
+    } else if (osName === 'linux') {
+      osPlatform = this.LINUX_PLATFORM
+    } else if (osName === 'win32') {
+      osPlatform = this.WINDOWS_PLATFORM
+    }
+    return osPlatform
+  }
 
   async checkIfVersionExists(bridgeVersion: string, bridgeVersionFilePath: string): Promise<boolean> {
     try {
@@ -392,7 +406,7 @@ export class Bridge {
       if (!checkIfPathExists(this.bridgePath)) {
         throw new Error(constants.BRIDGE_INSTALL_DIRECTORY_NOT_FOUND_ERROR)
       }
-      let folderName = 'bridge-cli-bundle'
+      let folderName = 'bridge-cli-bundle-'.concat(this.getOSPlatform())
       if (process.platform === 'win32') {
         folderName = `\\${folderName}`
       } else if (process.platform === 'darwin' || process.platform === 'linux') {
