@@ -1,4 +1,4 @@
-import {info} from '@actions/core'
+import {debug, info} from '@actions/core'
 import path from 'path'
 import {extractZip} from '@actions/tool-cache'
 import {downloadTool} from './tool-cache-local'
@@ -56,12 +56,12 @@ export async function extractZipped(file: string, destinationPath: string): Prom
     return Promise.reject(error)
   }
 }
-// export async function removeOldBridge(bridgePath: string): Promise<boolean> {
-//   fs.rm(bridgePath, {recursive: true, force: true}, async err => {
-//     if (err) {
-//       return Promise.reject(new Error('Error while cleaning up the directory'))
-//     }
-//     debug(`${bridgePath} is deleted!`)
-//   })
-//   return Promise.resolve(true)
-// }
+export async function removeOldBridge(bridgePath: string): Promise<boolean> {
+  fs.rm(bridgePath, {recursive: true, force: true}, async err => {
+    if (err) {
+      return Promise.reject(new Error('Error while cleaning up the directory'))
+    }
+    debug(`${bridgePath} is deleted!`)
+  })
+  return Promise.resolve(true)
+}
