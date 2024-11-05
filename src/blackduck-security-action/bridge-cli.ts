@@ -152,18 +152,12 @@ export class Bridge {
         info('Clear the existing bridge folder, if available '.concat(this.bridgePath))
         if (fs.existsSync(this.bridgePath)) {
           await rmRF(this.bridgePath)
-          // fs.rm(this.bridgePath, {recursive: true, force: true}, err => {
-          //   if (err) {
-          //     throw err
-          //   }
-          //   info(`${this.bridgePath} is deleted!`)
-          // })
         }
         await extractZipped(downloadResponse.filePath, extractZippedFilePath)
         const sourceFile = extractZippedFilePath
           .concat(pathSeprator)
           .concat(downloadResponse.filePath.split('/').pop() as string)
-          .split('.')[0]
+          .split('.zip')[0]
         debug('Rename folder from '.concat(sourceFile).concat(' to ').concat(extractZippedFilePath.concat(pathSeprator).concat('bridge-cli-bundle-').concat(this.getOSPlatform())))
         fs.renameSync(sourceFile, this.bridgePath)
         info('Download and configuration of Bridge CLI completed')
