@@ -12,6 +12,10 @@ import {GitHubClientServiceFactory} from '../../src/blackduck-security-action/fa
 import {GithubClientServiceCloud} from '../../src/blackduck-security-action/service/impl/cloud/github-client-service-cloud'
 import fs from 'fs'
 
+jest.mock('@actions/io', () => ({
+  rmRF: jest.fn()
+}))
+
 beforeEach(() => {
   Object.defineProperty(inputs, 'GITHUB_TOKEN', {value: 'token'})
   process.env['GITHUB_REPOSITORY'] = 'blackduck-security-action'
