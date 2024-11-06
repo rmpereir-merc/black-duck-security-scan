@@ -175,7 +175,7 @@ export function getBridgeDownloadUrl(): string {
   } else if (osName === 'win32') {
     platform = WINDOWS_PLATFORM
   }
-  return 'https://repo.blackduck.com/artifactory/bds-integrations-release/com/blackduck/integration/bridge-cli/latest/bridge-cli-'.concat(platform).concat('.zip')
+  return 'https://repo.blackduck.com/artifactory/bds-integrations-release/com/blackduck/integration/bridge-cli/latest/bridge-cli-bundle-'.concat(platform).concat('.zip')
 }
 
 export function mockBridgeDownloadUrlAndBridgePath() {

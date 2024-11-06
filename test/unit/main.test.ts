@@ -10,6 +10,11 @@ import {GithubClientServiceBase} from '../../src/blackduck-security-action/servi
 import * as utility from '../../src/blackduck-security-action/utility'
 import {GitHubClientServiceFactory} from '../../src/blackduck-security-action/factory/github-client-service-factory'
 import {GithubClientServiceCloud} from '../../src/blackduck-security-action/service/impl/cloud/github-client-service-cloud'
+import fs from 'fs'
+
+jest.mock('@actions/io', () => ({
+  rmRF: jest.fn()
+}))
 
 beforeEach(() => {
   Object.defineProperty(inputs, 'GITHUB_TOKEN', {value: 'token'})
@@ -20,6 +25,7 @@ beforeEach(() => {
   jest.resetModules()
   const uploadResponse: UploadArtifactResponse = {size: 0, id: 123}
   jest.spyOn(diagnostics, 'uploadDiagnostics').mockResolvedValueOnce(uploadResponse)
+  jest.spyOn(fs, 'renameSync').mockReturnValue()
 })
 
 afterEach(() => {

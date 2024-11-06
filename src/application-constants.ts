@@ -1,7 +1,8 @@
-export const BRIDGE_CLI_DEFAULT_PATH_MAC = '/bridge-cli' //Path will be in home
-export const BRIDGE_CLI_DEFAULT_PATH_WINDOWS = '\\bridge-cli'
-export const BRIDGE_CLI_DEFAULT_PATH_LINUX = '/bridge-cli'
-export const BRIDGE_CLI_ARTIFACTORY_URL = 'https://repo.blackduck.com/artifactory/bds-integrations-release/com/blackduck/integration/bridge-cli/'
+export const BRIDGE_CLI_DEFAULT_PATH_MAC = '/bridge-cli-bundle' //Path will be in home
+export const BRIDGE_CLI_DEFAULT_PATH_WINDOWS = '\\bridge-cli-bundle'
+export const BRIDGE_CLI_DEFAULT_PATH_LINUX = '/bridge-cli-bundle'
+// export const BRIDGE_CLI_ARTIFACTORY_URL = 'https://repo.blackduck.com/artifactory/bds-integrations-release/com/blackduck/integration/bridge-cli/'
+export const BRIDGE_CLI_ARTIFACTORY_URL = 'https://artifactory.internal.synopsys.com/artifactory/clops-local/clops.sig.synopsys.com/bridge/binaries/bridge-cli-bundle/'
 
 export const APPLICATION_NAME = 'blackduck-security-action'
 /**
@@ -286,3 +287,6 @@ export const PROVIDED_BLACKDUCKSCA_FAILURE_SEVERITIES_ERROR = 'Provided value is
 export const SARIF_GAS_API_RATE_LIMIT_FOR_ERROR = 'GitHub API rate limit has been exceeded, retry after {0} minutes.'
 export const SARIF_GAS_UPLOAD_FAILED_ERROR = 'Uploading SARIF report to GitHub Advanced Security failed: '
 export const SARIF_FILE_NO_FOUND_FOR_UPLOAD_ERROR = 'No SARIF file found to upload'
+export const MAC_PLATFORM_NAME = 'darwin'
+export const LINUX_PLATFORM_NAME = 'linux'
+export const WINDOWS_PLATFORM_NAME = 'win32'

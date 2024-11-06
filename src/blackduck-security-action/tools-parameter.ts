@@ -27,7 +27,7 @@ export class BridgeToolsParameter {
   private static COVERITY_STAGE = 'connect'
   static SPACE = ' '
   // Blackduck parameters
-  private static BLACKDUCK_STAGE = 'blackduck'
+  private static BLACKDUCK_STAGE = 'blackducksca'
 
   constructor(tempDir: string) {
     this.tempDir = tempDir
