@@ -1,7 +1,7 @@
 import {exec, ExecOptions} from '@actions/exec'
 import {BRIDGE_CLI_DOWNLOAD_URL, ENABLE_NETWORK_AIR_GAP, BRIDGE_CLI_INSTALL_DIRECTORY_KEY} from './inputs'
 import {debug, error, info, warning} from '@actions/core'
-import {GITHUB_ENVIRONMENT_VARIABLES, NON_RETRY_HTTP_CODES, RETRY_COUNT, RETRY_DELAY_IN_MILLISECONDS, BRIDGE_CLI_DEFAULT_PATH_LINUX, BRIDGE_CLI_DEFAULT_PATH_MAC, BRIDGE_CLI_DEFAULT_PATH_WINDOWS} from '../application-constants'
+import {GITHUB_ENVIRONMENT_VARIABLES, NON_RETRY_HTTP_CODES, RETRY_COUNT, RETRY_DELAY_IN_MILLISECONDS, BRIDGE_CLI_DEFAULT_PATH_LINUX, BRIDGE_CLI_DEFAULT_PATH_MAC, BRIDGE_CLI_DEFAULT_PATH_WINDOWS, MAC_PLATFORM_NAME, LINUX_PLATFORM_NAME, WINDOWS_PLATFORM_NAME} from '../application-constants'
 import {tryGetExecutablePath} from '@actions/io/lib/io-util'
 import path from 'path'
 import {checkIfPathExists, cleanupTempDir, sleep} from './utility'
@@ -40,35 +40,35 @@ export class Bridge {
     let bridgeDefaultPath = ''
     const subFolder = 'bridge-cli-bundle-'.concat(this.getOSPlatform())
     const osName = process.platform
-    if (osName === 'darwin') {
+    if (osName === MAC_PLATFORM_NAME) {
       bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_MAC, subFolder)
-    } else if (osName === 'linux') {
+    } else if (osName === LINUX_PLATFORM_NAME) {
       bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_LINUX, subFolder)
-    } else if (osName === 'win32') {
+    } else if (osName === WINDOWS_PLATFORM_NAME) {
       bridgeDefaultPath = path.join(process.env['USERPROFILE'] as string, BRIDGE_CLI_DEFAULT_PATH_WINDOWS, subFolder)
     }
 
     return bridgeDefaultPath
   }
-  private getBridgeDownloadDefaultPath(): string {
-    let bridgeDefaultPath = ''
+  private getBridgeCLIDownloadDefaultPath(): string {
+    let bridgeCLIDefaultPath = ''
     const osName = process.platform
-    if (osName === 'darwin') {
-      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_MAC)
-    } else if (osName === 'linux') {
-      bridgeDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_LINUX)
-    } else if (osName === 'win32') {
-      bridgeDefaultPath = path.join(process.env['USERPROFILE'] as string, BRIDGE_CLI_DEFAULT_PATH_WINDOWS)
+    if (osName === MAC_PLATFORM_NAME) {
+      bridgeCLIDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_MAC)
+    } else if (osName === LINUX_PLATFORM_NAME) {
+      bridgeCLIDefaultPath = path.join(process.env['HOME'] as string, BRIDGE_CLI_DEFAULT_PATH_LINUX)
+    } else if (osName === WINDOWS_PLATFORM_NAME) {
+      bridgeCLIDefaultPath = path.join(process.env['USERPROFILE'] as string, BRIDGE_CLI_DEFAULT_PATH_WINDOWS)
     }
 
-    return bridgeDefaultPath
+    return bridgeCLIDefaultPath
   }
   async checkIfBridgeExists(bridgeVersion: string): Promise<boolean> {
     await this.validateBridgePath()
     const osName = process.platform
     let versionFilePath = ''
     let versionFileExists = false
-    if (osName === 'win32') {
+    if (osName === WINDOWS_PLATFORM_NAME) {
       versionFilePath = this.bridgePath.concat('\\versions.txt')
       versionFileExists = checkIfPathExists(versionFilePath)
     } else {
@@ -95,7 +95,7 @@ export class Bridge {
     if (!this.bridgeExecutablePath) {
       throw new Error(constants.BRIDGE_EXECUTABLE_NOT_FOUND_ERROR.concat(this.bridgePath))
     }
-    if (osName === 'darwin' || osName === 'linux' || osName === 'win32') {
+    if (osName === MAC_PLATFORM_NAME || osName === LINUX_PLATFORM_NAME || osName === WINDOWS_PLATFORM_NAME) {
       const exectOp: ExecOptions = {
         cwd: workingDirectory
       }
@@ -140,12 +140,12 @@ export class Bridge {
         info('Bridge URL is - '.concat(bridgeUrl))
         const downloadResponse: DownloadFileResponse = await getRemoteFile(tempDir, bridgeUrl)
         let pathSeprator = ''
-        if (process.platform === 'win32') {
+        if (process.platform === WINDOWS_PLATFORM_NAME) {
           pathSeprator = `\\`
-        } else if (process.platform === 'darwin' || process.platform === 'linux') {
+        } else if (process.platform === MAC_PLATFORM_NAME || process.platform === LINUX_PLATFORM_NAME) {
           pathSeprator = `/`
         }
-        const extractZippedFilePath: string = BRIDGE_CLI_INSTALL_DIRECTORY_KEY || this.getBridgeDownloadDefaultPath()
+        const extractZippedFilePath: string = BRIDGE_CLI_INSTALL_DIRECTORY_KEY || this.getBridgeCLIDownloadDefaultPath()
         this.bridgePath = path.join(extractZippedFilePath, 'bridge-cli-bundle-'.concat(this.getOSPlatform()))
         // Clear the existing bridge, if available so we will not have duplicate or extra bridge folder
         info('Clear the existing bridge folder, if available from '.concat(this.bridgePath))
@@ -300,13 +300,13 @@ export class Bridge {
 
     let bridgeDownloadUrl = this.bridgeUrlPattern.replace('$version', version)
     bridgeDownloadUrl = bridgeDownloadUrl.replace('$version', version)
-    if (osName === 'darwin') {
+    if (osName === MAC_PLATFORM_NAME) {
       const isARM = !os.cpus()[0].model.includes('Intel')
       const isValidVersionForARM = semver.gte(version, constants.MIN_SUPPORTED_BRIDGE_CLI_MAC_ARM_VERSION)
       bridgeDownloadUrl = bridgeDownloadUrl.replace('$platform', isARM && isValidVersionForARM ? this.MAC_ARM_PLATFORM : this.MAC_PLATFORM)
-    } else if (osName === 'linux') {
+    } else if (osName === LINUX_PLATFORM_NAME) {
       bridgeDownloadUrl = bridgeDownloadUrl.replace('$platform', this.LINUX_PLATFORM)
-    } else if (osName === 'win32') {
+    } else if (osName === WINDOWS_PLATFORM_NAME) {
       bridgeDownloadUrl = bridgeDownloadUrl.replace('$platform', this.WINDOWS_PLATFORM)
     }
 
@@ -316,12 +316,12 @@ export class Bridge {
   getLatestVersionUrl(): string {
     const osName = process.platform
     let bridgeDownloadUrl = this.bridgeUrlLatestPattern
-    if (osName === 'darwin') {
+    if (osName === MAC_PLATFORM_NAME) {
       const isARM = !os.cpus()[0].model.includes('Intel')
       bridgeDownloadUrl = bridgeDownloadUrl.replace('$platform', isARM ? this.MAC_ARM_PLATFORM : this.MAC_PLATFORM)
-    } else if (osName === 'linux') {
+    } else if (osName === LINUX_PLATFORM_NAME) {
       bridgeDownloadUrl = bridgeDownloadUrl.replace('$platform', this.LINUX_PLATFORM)
-    } else if (osName === 'win32') {
+    } else if (osName === WINDOWS_PLATFORM_NAME) {
       bridgeDownloadUrl = bridgeDownloadUrl.replace('$platform', this.WINDOWS_PLATFORM)
     }
 
@@ -330,12 +330,12 @@ export class Bridge {
   getOSPlatform(): string {
     const osName = process.platform
     let osPlatform = ''
-    if (osName === 'darwin') {
+    if (osName === MAC_PLATFORM_NAME) {
       const isARM = !os.cpus()[0].model.includes('Intel')
       osPlatform = isARM ? this.MAC_ARM_PLATFORM : this.MAC_PLATFORM
-    } else if (osName === 'linux') {
+    } else if (osName === LINUX_PLATFORM_NAME) {
       osPlatform = this.LINUX_PLATFORM
-    } else if (osName === 'win32') {
+    } else if (osName === WINDOWS_PLATFORM_NAME) {
       osPlatform = this.WINDOWS_PLATFORM
     }
     return osPlatform
@@ -403,9 +403,9 @@ export class Bridge {
         throw new Error(constants.BRIDGE_INSTALL_DIRECTORY_NOT_FOUND_ERROR)
       }
       let folderName = 'bridge-cli-bundle-'.concat(this.getOSPlatform())
-      if (process.platform === 'win32') {
+      if (process.platform === WINDOWS_PLATFORM_NAME) {
         folderName = `\\${folderName}`
-      } else if (process.platform === 'darwin' || process.platform === 'linux') {
+      } else if (process.platform === MAC_PLATFORM_NAME || process.platform === LINUX_PLATFORM_NAME) {
         folderName = `/${folderName}`
       }
       if (checkIfPathExists(BRIDGE_CLI_INSTALL_DIRECTORY_KEY.concat(folderName))) {
@@ -419,9 +419,9 @@ export class Bridge {
   }
 
   private async setBridgeExecutablePath(): Promise<void> {
-    if (process.platform === 'win32') {
+    if (process.platform === WINDOWS_PLATFORM_NAME) {
       this.bridgeExecutablePath = await tryGetExecutablePath(this.bridgePath.concat('\\bridge-cli'), ['.exe'])
-    } else if (process.platform === 'darwin' || process.platform === 'linux') {
+    } else if (process.platform === MAC_PLATFORM_NAME || process.platform === LINUX_PLATFORM_NAME) {
       this.bridgeExecutablePath = await tryGetExecutablePath(this.bridgePath.concat('/bridge-cli'), [])
     }
   }

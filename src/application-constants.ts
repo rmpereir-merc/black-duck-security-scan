@@ -287,3 +287,6 @@ export const PROVIDED_BLACKDUCKSCA_FAILURE_SEVERITIES_ERROR = 'Provided value is
 export const SARIF_GAS_API_RATE_LIMIT_FOR_ERROR = 'GitHub API rate limit has been exceeded, retry after {0} minutes.'
 export const SARIF_GAS_UPLOAD_FAILED_ERROR = 'Uploading SARIF report to GitHub Advanced Security failed: '
 export const SARIF_FILE_NO_FOUND_FOR_UPLOAD_ERROR = 'No SARIF file found to upload'
+export const MAC_PLATFORM_NAME = 'darwin'
+export const LINUX_PLATFORM_NAME = 'linux'
+export const WINDOWS_PLATFORM_NAME = 'win32'
