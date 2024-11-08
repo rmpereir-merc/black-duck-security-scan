@@ -137,7 +137,7 @@ export class Bridge {
       }
       info('Bridge Version is - '.concat(bridgeVersion))
       if (!(await this.checkIfBridgeExists(bridgeVersion))) {
-        info('Downloading and configuring Bridge from Bridge URL '.concat(bridgeUrl))
+        info('Downloading and configuring Bridge from URL - '.concat(bridgeUrl))
         const downloadResponse: DownloadFileResponse = await getRemoteFile(tempDir, bridgeUrl)
         let pathSeprator = ''
         if (process.platform === WINDOWS_PLATFORM_NAME) {
