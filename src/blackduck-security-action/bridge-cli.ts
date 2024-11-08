@@ -135,9 +135,9 @@ export class Bridge {
         bridgeVersion = await this.getBridgeVersionFromLatestURL(this.bridgeArtifactoryURL.concat('latest/versions.txt'))
         bridgeUrl = this.getLatestVersionUrl()
       }
+      info('Bridge Version is - '.concat(bridgeVersion))
       if (!(await this.checkIfBridgeExists(bridgeVersion))) {
-        info('Downloading and configuring Bridge for Version '.concat(bridgeVersion))
-        info('Bridge URL is - '.concat(bridgeUrl))
+        info('Downloading and configuring Bridge from Bridge URL '.concat(bridgeUrl))
         const downloadResponse: DownloadFileResponse = await getRemoteFile(tempDir, bridgeUrl)
         let pathSeprator = ''
         if (process.platform === WINDOWS_PLATFORM_NAME) {
