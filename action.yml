@@ -137,7 +137,7 @@ inputs:
   detect_install_directory:
     description: 'Directory to find or install detect'
     required: false
-  detect_scan_full:
+  blackducksca_scan_full:
     description: 'Scan Mode. (true for intelligent scan & false for rapid scan)'
     required: false
   blackducksca_scan_failure_severities:
@@ -145,9 +145,6 @@ inputs:
     required: false
   blackducksca_fixpr_enabled:
     description: 'If set as true, separate Fix PRs will be created if vulnerability is found after scan'
-    required: false
-  blackduck_fixpr_enabled:
-    description: 'Flag to enable/disable the automatic fix pull request creations for Black Duck'
     required: false
   blackducksca_fixpr_maxCount:
     description: 'Maximum number of Pull Requests to be created that violate policies'
@@ -224,7 +221,7 @@ inputs:
   coverity_execution_path:
     description: 'Coverity execution path'
     required: false
-  blackduck_execution_path:
+  detect_execution_path:
     description: 'Black Duck execution path'
     required: false
   github_token:
