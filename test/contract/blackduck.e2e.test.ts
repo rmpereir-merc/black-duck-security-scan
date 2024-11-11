@@ -11,7 +11,7 @@ import * as utility from '../../src/blackduck-security-action/utility'
 const blackduckParamMap: Map<string, string> = new Map<string, string>()
 blackduckParamMap.set('BLACKDUCKSCA_URL', 'BLACKDUCKSCA_URL')
 blackduckParamMap.set('BLACKDUCKSCA_TOKEN', 'BLACKDUCKSCA_TOKEN')
-blackduckParamMap.set('DETECT_SCAN_FULL', 'true')
+blackduckParamMap.set('BLACKDUCKSCA_SCAN_FULL', 'true')
 blackduckParamMap.set('BLACKDUCKSCA_SCAN_FAILURE_SEVERITIES', 'ALL')
 blackduckParamMap.set('DETECT_INSTALL_DIRECTORY', '/User/home')
 blackduckParamMap.set('BLACKDUCKSCA_PRCOMMENT_ENABLED', 'true')
@@ -140,7 +140,7 @@ describe('Blackduck flow contract', () => {
   it('With blackducksca.automation.fixpr true and empty github owner name', async () => {
     mockBridgeDownloadUrlAndBridgePath()
     mockBlackduckParamsExcept(['NONE'])
-    blackduckParamMap.set('DETECT_SCAN_FULL', 'false') //rapid scan
+    blackduckParamMap.set('BLACKDUCKSCA_SCAN_FULL', 'false') //rapid scan
     process.env['GITHUB_REPOSITORY_OWNER'] = ''
     setAllMocks()
 

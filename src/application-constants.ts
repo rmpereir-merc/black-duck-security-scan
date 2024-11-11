@@ -115,7 +115,7 @@ export const BLACKDUCKSCA_TOKEN_KEY = 'blackducksca_token'
 export const BLACKDUCK_INSTALL_DIRECTORY_KEY = 'blackduck_install_directory'
 export const DETECT_INSTALL_DIRECTORY_KEY = 'detect_install_directory'
 /**
- * @deprecated Use detect_scan_full instead. This can be removed in future release.
+ * @deprecated Use blackducksca_scan_full instead. This can be removed in future release.
  */
 export const BLACKDUCK_SCAN_FULL_KEY = 'blackduck_scan_full'
 export const BLACKDUCKSCA_SCAN_FULL_KEY = 'blackducksca_scan_full'
