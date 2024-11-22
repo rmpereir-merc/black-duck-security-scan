@@ -88,7 +88,6 @@ export class Bridge {
   }
 
   async executeBridgeCommand(bridgeCommand: string, workingDirectory: string): Promise<number> {
-    process.env['BRIDGE_CACHE_DIR'] = this.bridgePath
     const osName: string = process.platform
     await this.setBridgeExecutablePath()
     debug('Bridge executable path:'.concat(this.bridgePath))
