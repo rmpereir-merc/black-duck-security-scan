@@ -9,9 +9,9 @@ import * as io from '@actions/io'
 import * as utility from '../../src/blackduck-security-action/utility'
 
 const coverityParamMap: Map<string, string> = new Map<string, string>()
-coverityParamMap.set('COVERITY_URL', 'https://testing.coverity.synopsys.com')
-coverityParamMap.set('COVERITY_USER', 'User1')
-coverityParamMap.set('COVERITY_PASSPHRASE', 'passphrase')
+coverityParamMap.set('COVERITY_URL', 'https://integrations-qa.dev.cnc.duckutil.net')
+coverityParamMap.set('COVERITY_USER', 'admin')
+coverityParamMap.set('COVERITY_PASSPHRASE', 'coverity')
 coverityParamMap.set('COVERITY_INSTALL_DIRECTORY', '/')
 coverityParamMap.set('COVERITY_POLICY_VIEW', 'policy')
 coverityParamMap.set('COVERITY_PRCOMMENT_ENABLED', 'true')
@@ -175,7 +175,7 @@ export function getBridgeDownloadUrl(): string {
   } else if (osName === 'win32') {
     platform = WINDOWS_PLATFORM
   }
-  return 'https://repo.blackduck.com/artifactory/bds-integrations-release/com/blackduck/integration/bridge-cli/latest/bridge-cli-bundle-'.concat(platform).concat('.zip')
+  return 'https://artifactory.internal.synopsys.com/artifactory/clops-local/clops.sig.synopsys.com/bridge/binaries/bridge-cli-bundle/latest/bridge-cli-bundle-'.concat(platform).concat('.zip')
 }
 
 export function mockBridgeDownloadUrlAndBridgePath() {
