@@ -10,7 +10,7 @@ import * as utility from '../../src/blackduck-security-action/utility'
 import fs from 'fs'
 
 const coverityParamMap: Map<string, string> = new Map<string, string>()
-coverityParamMap.set('COVERITY_URL', 'https://integrations-qa.dev.cnc.duckutil.net')
+coverityParamMap.set('COVERITY_URL', 'https://testing.coverity.synopsys.com')
 coverityParamMap.set('COVERITY_USER', 'admin')
 coverityParamMap.set('COVERITY_PASSPHRASE', 'coverity')
 coverityParamMap.set('COVERITY_INSTALL_DIRECTORY', '/')
