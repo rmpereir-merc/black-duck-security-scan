@@ -65,7 +65,7 @@ export class GithubClientServiceBase implements GithubClientServiceInterface {
             info('SARIF result uploaded successfully to GitHub Advance Security')
             retryCountLocal = 0
           } else if (httpResponse.message.statusCode === constants.HTTP_STATUS_FORBIDDEN && (rateLimitRemaining === '0' || responseBody.includes(constants.SECONDARY_RATE_LIMIT))) {
-            const rateLimitResetHeader = httpResponse.message?.headers[constants.X_RATE_LIMIT_RESET] || ''
+            const rateLimitResetHeader = httpResponse.message.headers[constants.X_RATE_LIMIT_RESET] || ''
             const rateLimitReset = Array.isArray(rateLimitResetHeader) ? rateLimitResetHeader[0] : rateLimitResetHeader
             const currentTimeInSeconds = Math.floor(Date.now() / 1000)
             const resetTimeInSeconds = parseInt(rateLimitReset, 10)
