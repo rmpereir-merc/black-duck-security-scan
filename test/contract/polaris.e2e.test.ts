@@ -38,6 +38,7 @@ describe('Polaris flow contract', () => {
 
   it('With all mandatory fields without Triage', async () => {
     mockBridgeDownloadUrlAndBridgePath()
+    mockPolarisParamsExcept('POLARIS_TRIAGE')
     setAllMocks()
 
     try {

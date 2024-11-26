@@ -1,0 +1,1 @@
+{"data":{"polaris":{"accesstoken":"POLARIS_ACCESS_TOKEN","serverUrl":"POLARIS_SERVER_URL","application":{"name":"POLARIS_APPLICATION_NAME"},"project":{"name":"POLARIS_PROJECT_NAME"},"assessment":{"types":["SCA","SAST"]}}}}

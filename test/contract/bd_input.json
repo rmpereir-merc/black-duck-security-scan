@@ -1,0 +1,1 @@
+{"data":{"blackducksca":{"url":"BLACKDUCKSCA_URL","token":"BLACKDUCKSCA_TOKEN","scan":{"full":false,"failure":{"severities":["ALL"]}},"fixpr":{"enabled":true}},"detect":{"install":{"directory":"/User/home"}},"github":{"user":{"token":"token"},"repository":{"name":"blackduck-security-action","owner":{"name":""},"branch":{"name":"branch-name"}}}}}

@@ -7,7 +7,6 @@ import * as toolCache from '@actions/tool-cache'
 import * as toolCacheLocal from '../../src/blackduck-security-action/tool-cache-local'
 import * as io from '@actions/io'
 import * as utility from '../../src/blackduck-security-action/utility'
-import fs from 'fs'
 
 const coverityParamMap: Map<string, string> = new Map<string, string>()
 coverityParamMap.set('COVERITY_URL', 'https://integrations-qa.dev.cnc.duckutil.net')
@@ -161,7 +160,6 @@ export function setAllMocks() {
   jest.spyOn(validator, 'validateBridgeUrl').mockReturnValue(true)
   jest.spyOn(utility, 'cleanupTempDir').mockResolvedValue()
   jest.spyOn(utility, 'createTempDir').mockResolvedValue(__dirname)
-  jest.spyOn(fs, 'renameSync').mockReturnValue()
 }
 
 export function getBridgeDownloadUrl(): string {

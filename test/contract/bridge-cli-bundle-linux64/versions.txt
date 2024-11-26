@@ -1,0 +1,1 @@
+bridge-cli-bundle: 2.9.27
