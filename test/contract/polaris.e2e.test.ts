@@ -165,7 +165,7 @@ export function getBridgeDownloadUrl(): string {
   } else if (osName === 'win32') {
     platform = WINDOWS_PLATFORM
   }
-  return 'https://artifactory.internal.synopsys.com/artifactory/clops-local/clops.sig.synopsys.com/bridge/binaries/bridge-cli-bundle/latest/bridge-cli-bundle-'.concat(platform).concat('.zip')
+  return 'https://repo.blackduck.com/bds-integrations-release/com/blackduck/integration/bridge/binaries/bridge-cli-bundle/latest/bridge-cli-bundle-'.concat(platform).concat('.zip')
 }
 
 export function mockBridgeDownloadUrlAndBridgePath() {
