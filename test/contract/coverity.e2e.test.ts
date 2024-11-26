@@ -7,11 +7,12 @@ import * as toolCache from '@actions/tool-cache'
 import * as toolCacheLocal from '../../src/blackduck-security-action/tool-cache-local'
 import * as io from '@actions/io'
 import * as utility from '../../src/blackduck-security-action/utility'
+import fs from 'fs'
 
 const coverityParamMap: Map<string, string> = new Map<string, string>()
 coverityParamMap.set('COVERITY_URL', 'https://testing.coverity.synopsys.com')
-coverityParamMap.set('COVERITY_USER', 'User1')
-coverityParamMap.set('COVERITY_PASSPHRASE', 'passphrase')
+coverityParamMap.set('COVERITY_USER', 'admin')
+coverityParamMap.set('COVERITY_PASSPHRASE', 'coverity')
 coverityParamMap.set('COVERITY_INSTALL_DIRECTORY', '/')
 coverityParamMap.set('COVERITY_POLICY_VIEW', 'policy')
 coverityParamMap.set('COVERITY_PRCOMMENT_ENABLED', 'true')
@@ -160,6 +161,7 @@ export function setAllMocks() {
   jest.spyOn(validator, 'validateBridgeUrl').mockReturnValue(true)
   jest.spyOn(utility, 'cleanupTempDir').mockResolvedValue()
   jest.spyOn(utility, 'createTempDir').mockResolvedValue(__dirname)
+  jest.spyOn(fs, 'renameSync').mockReturnValue()
 }
 
 export function getBridgeDownloadUrl(): string {
