@@ -8,6 +8,7 @@ import * as toolCacheLocal from '../../src/blackduck-security-action/tool-cache-
 import * as io from '@actions/io'
 import * as utility from '../../src/blackduck-security-action/utility'
 import {BRIDGE_CLI_DOWNLOAD_URL, POLARIS_APPLICATION_NAME, POLARIS_ASSESSMENT_TYPES, POLARIS_PROJECT_NAME, POLARIS_SERVER_URL} from '../../src/blackduck-security-action/inputs'
+import fs from 'fs'
 
 const polarisParamsMap: Map<string, string> = new Map<string, string>()
 polarisParamsMap.set('POLARIS_SERVER_URL', 'POLARIS_SERVER_URL')
@@ -147,6 +148,7 @@ export function setAllMocks() {
   jest.spyOn(validator, 'validateBridgeUrl').mockReturnValue(true)
   jest.spyOn(utility, 'cleanupTempDir').mockResolvedValue()
   jest.spyOn(utility, 'createTempDir').mockResolvedValue(__dirname)
+  jest.spyOn(fs, 'renameSync').mockReturnValue()
 }
 
 export function getBridgeDownloadUrl(): string {
