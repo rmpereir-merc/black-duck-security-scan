@@ -18,6 +18,20 @@ export const SRM_WAITFORSCAN = getInput(constants.SRM_WAITFORSCAN_KEY)?.trim() |
 export const COVERITY_EXECUTION_PATH = getInput(constants.COVERITY_EXECUTION_PATH_KEY)?.trim() || ''
 export const DETECT_EXECUTION_PATH = getInput(constants.DETECT_EXECUTION_PATH_KEY)?.trim() || getInput(constants.BLACKDUCK_EXECUTION_PATH_KEY)?.trim() || ''
 
+export const SRM_ACCESS_TOKEN = getInput(constants.SRM_ACCESS_KEY)?.trim() || ''
+export const SRM_SERVER_URL = getInput(constants.SRM_SERVERURL_KEY)?.trim() || getInput(constants.SRM_SERVER_URL_KEY)?.trim() || ''
+export const SRM_PRCOMMENT_ENABLED = getInput(constants.SRM_PRCOMMENT_ENABLED_KEY)?.trim() || ''
+export const SRM_PRCOMMENT_SEVERITIES = getInput(constants.SRM_PRCOMMENT_SEVERITIES_KEY)?.trim() || ''
+export const SRM_PARENT_BRANCH_NAME = getInput(constants.SRM_BRANCH_PARENT_NAME_KEY)?.trim() || ''
+export const SRM_TEST_SCA_TYPE = getInput(constants.SRM_TEST_SCA_TYPE_KEY)?.trim() || ''
+export const SRM_REPORTS_SARIF_CREATE = getInput(constants.SRM_REPORTS_SARIF_CREATE_KEY)?.trim() || ''
+export const SRM_REPORTS_SARIF_FILE_PATH = getInput(constants.SRM_REPORTS_SARIF_FILE_PATH_KEY)?.trim() || ''
+export const SRM_REPORTS_SARIF_SEVERITIES = getInput(constants.SRM_REPORTS_SARIF_SEVERITIES_KEY)?.trim() || ''
+export const SRM_REPORTS_SARIF_GROUP_SCA_ISSUES = getInput(constants.SRM_REPORTS_SARIF_GROUP_SCA_ISSUES_KEY)?.trim() || ''
+export const SRM_REPORTS_SARIF_ISSUE_TYPES = getInput(constants.SRM_REPORTS_SARIF_ISSUE_TYPES_KEY)?.trim() || ''
+export const SRM_UPLOAD_SARIF_REPORT = getInput(constants.SRM_UPLOAD_SARIF_REPORT_KEY)?.trim() || ''
+export const SRM_ASSESSMENT_MODE = getInput(constants.SRM_ASSESSMENT_MODE_KEY)?.trim() || ''
+
 // Polaris related inputs
 export const POLARIS_ACCESS_TOKEN = getInput(constants.POLARIS_ACCESSTOKEN_KEY)?.trim() || getInput(constants.POLARIS_ACCESS_TOKEN_KEY)?.trim() || ''
 export const POLARIS_APPLICATION_NAME = getInput(constants.POLARIS_APPLICATION_NAME_KEY)?.trim() || ''

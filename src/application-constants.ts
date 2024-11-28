@@ -37,6 +37,22 @@ export const SRM_BRANCH_NAME_KEY = 'srm_branch_name'
 export const SRM_BRANCH_PARENT_KEY = 'srm_branch_parent'
 export const SRM_WAITFORSCAN_KEY = 'srm_waitForScan'
 export const COVERITY_EXECUTION_PATH_KEY = 'coverity_execution_path'
+
+export const SRM_ACCESS_KEY = 'srm_accessKey'
+export const SRM_SERVERURL_KEY = 'srm_serverUrl'
+export const SRM_SERVER_URL_KEY = 'srm_server_url'
+export const SRM_PRCOMMENT_ENABLED_KEY = 'srm_prComment_enabled'
+export const SRM_PRCOMMENT_SEVERITIES_KEY = 'srm_prComment_severities'
+export const SRM_BRANCH_PARENT_NAME_KEY = 'srm_branch_parent_name'
+export const SRM_TEST_SCA_TYPE_KEY = 'srm_test_sca_type'
+export const SRM_REPORTS_SARIF_CREATE_KEY = 'srm_reports_sarif_create'
+export const SRM_REPORTS_SARIF_FILE_PATH_KEY = 'srm_reports_sarif_file_path'
+export const SRM_REPORTS_SARIF_SEVERITIES_KEY = 'srm_reports_sarif_severities'
+export const SRM_REPORTS_SARIF_GROUP_SCA_ISSUES_KEY = 'srm_reports_sarif_groupSCAIssues'
+export const SRM_REPORTS_SARIF_ISSUE_TYPES_KEY = 'srm_reports_sarif_issue_types'
+export const SRM_UPLOAD_SARIF_REPORT_KEY = 'srm_upload_sarif_report'
+export const SRM_ASSESSMENT_MODE_KEY = 'srm_assessment_mode'
+
 /**
  * @deprecated Use detect_execution_path instead. This can be removed in future release.
  */
