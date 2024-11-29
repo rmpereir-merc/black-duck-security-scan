@@ -13,7 +13,6 @@ import fs from 'fs'
 const srmParamsMap: Map<string, string> = new Map<string, string>()
 srmParamsMap.set('SRM_URL', 'SRM_URL')
 srmParamsMap.set('SRM_API_KEY', 'SRM_API_KEY')
-srmParamsMap.set('SRM_PROJECT_NAME', 'SRM_PROJECT_NAME')
 srmParamsMap.set('SRM_ASSESSMENT_TYPES', 'SCA,SAST')
 
 describe('Srm flow contract', () => {
@@ -52,20 +51,6 @@ describe('Srm flow contract', () => {
   it('With missing mandatory field srm.api.key', async () => {
     mockBridgeDownloadUrlAndBridgePath()
     mockSrmParamsExcept('SRM_API_KEY')
-
-    setAllMocks()
-
-    try {
-      const resp = await run()
-    } catch (err: any) {
-      expect(err.message).toContain('failed with exit code 2')
-      error(err)
-    }
-  })
-
-  it('With missing mandatory field srm.project.name', async () => {
-    mockBridgeDownloadUrlAndBridgePath()
-    mockSrmParamsExcept('SRM_PROJECT_NAME')
 
     setAllMocks()
 
@@ -124,9 +109,9 @@ export function resetMockSrmParams() {
 }
 
 export function setAllMocks() {
-  let polaris: string[] = []
+  let srm: string[] = []
   jest.spyOn(configVariables, 'getGitHubWorkspaceDir').mockReturnValue(__dirname)
-  jest.spyOn(validator, 'validatePolarisInputs').mockReturnValueOnce(polaris)
+  jest.spyOn(validator, 'validateSRMInputs').mockReturnValueOnce(srm)
   jest.spyOn(toolCacheLocal, 'downloadTool').mockResolvedValueOnce(__dirname)
   jest.spyOn(io, 'rmRF').mockResolvedValue()
   jest.spyOn(toolCache, 'extractZip').mockResolvedValueOnce('Extracted')
