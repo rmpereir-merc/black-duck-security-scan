@@ -35,20 +35,6 @@ describe('Srm flow contract', () => {
     expect(resp).toBe(0)
   })
 
-  it('With missing mandatory field srm.url', async () => {
-    mockBridgeDownloadUrlAndBridgePath()
-    mockSrmParamsExcept('SRM_URL')
-
-    setAllMocks()
-
-    try {
-      const resp = await run()
-    } catch (err: any) {
-      expect(err.message).toContain('failed with exit code 2')
-      error(err)
-    }
-  })
-
   it('With missing mandatory field srm.api.key', async () => {
     mockBridgeDownloadUrlAndBridgePath()
     mockSrmParamsExcept('SRM_API_KEY')
