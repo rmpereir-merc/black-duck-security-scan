@@ -37,7 +37,6 @@ export const SRM_BRANCH_NAME_KEY = 'srm_branch_name'
 export const SRM_BRANCH_PARENT_KEY = 'srm_branch_parent'
 export const SRM_WAITFORSCAN_KEY = 'srm_waitForScan'
 export const COVERITY_EXECUTION_PATH_KEY = 'coverity_execution_path'
-
 /**
  * @deprecated Use detect_execution_path instead. This can be removed in future release.
  */
