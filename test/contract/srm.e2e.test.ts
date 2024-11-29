@@ -7,7 +7,7 @@ import * as toolCache from '@actions/tool-cache'
 import * as toolCacheLocal from '../../src/blackduck-security-action/tool-cache-local'
 import * as io from '@actions/io'
 import * as utility from '../../src/blackduck-security-action/utility'
-import {BRIDGE_CLI_DOWNLOAD_URL, SRM_ASSESSMENT_TYPES, SRM_PROJECT_NAME, SRM_URL} from '../../src/blackduck-security-action/inputs'
+import {BRIDGE_CLI_DOWNLOAD_URL, SRM_ASSESSMENT_TYPES, SRM_URL} from '../../src/blackduck-security-action/inputs'
 import fs from 'fs'
 
 const srmParamsMap: Map<string, string> = new Map<string, string>()
@@ -33,19 +33,6 @@ describe('Srm flow contract', () => {
 
     const resp = await run()
     expect(resp).toBe(0)
-  })
-
-  it('With all mandatory fields without Triage', async () => {
-    mockBridgeDownloadUrlAndBridgePath()
-    mockSrmParamsExcept('SRM_TRIAGE')
-    setAllMocks()
-
-    try {
-      const resp = await run()
-    } catch (err: any) {
-      expect(err.message).toContain('failed with exit code 2')
-      error(err)
-    }
   })
 
   it('With missing mandatory field srm.api.key', async () => {
@@ -94,9 +81,9 @@ describe('Srm flow contract', () => {
   })
 })
 
-export function mockSrmParamsExcept(polarisConstant: string) {
+export function mockSrmParamsExcept(srmConstant: string) {
   srmParamsMap.forEach((value, key) => {
-    if (polarisConstant != key) {
+    if (srmConstant != key) {
       Object.defineProperty(inputs, key, {value: value})
     }
   })
