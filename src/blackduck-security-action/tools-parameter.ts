@@ -308,6 +308,8 @@ export class BridgeToolsParameter {
 
     const inputJson = JSON.stringify(covData)
 
+    debug('Coverity JSON: ' + inputJson)
+
     const stateFilePath = path.join(this.tempDir, BridgeToolsParameter.COVERITY_STATE_FILE_NAME)
     fs.writeFileSync(stateFilePath, inputJson)
 
