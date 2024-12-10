@@ -310,7 +310,7 @@ export class BridgeToolsParameter {
 
     const inputJson = JSON.stringify(covData)
 
-    debug('Coverity JSON: '.concat(inputJson || 'xpto'))
+    info('Coverity JSON: '.concat(inputJson || 'xpto'))
 
     const stateFilePath = path.join(this.tempDir, BridgeToolsParameter.COVERITY_STATE_FILE_NAME)
     fs.writeFileSync(stateFilePath, inputJson)
