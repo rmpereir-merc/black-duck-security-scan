@@ -251,7 +251,7 @@ export class BridgeToolsParameter {
       data: {
         coverity: {
           connect: {
-            user: {name: inputs.COVERITY_USER, password: inputs.COVERITY_PASSPHRASE},
+            user: {name: 'inputs.COVERITY_USER', password: 'inputs.COVERITY_PASSPHRASE'},
             url: inputs.COVERITY_URL,
             project: {name: coverityProjectName},
             stream: {name: coverityStreamName}
