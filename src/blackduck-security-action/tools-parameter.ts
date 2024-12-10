@@ -484,6 +484,7 @@ export class BridgeToolsParameter {
     blackduckData.data.detect = Object.assign({}, this.setDetectArgs(), blackduckData.data.detect)
 
     const inputJson = JSON.stringify(blackduckData)
+    info('Coverity JSON: '.concat(inputJson))
 
     const stateFilePath = path.join(this.tempDir, BridgeToolsParameter.BD_STATE_FILE_NAME)
     fs.writeFileSync(stateFilePath, inputJson)
@@ -569,6 +570,7 @@ export class BridgeToolsParameter {
     }
 
     const inputJson = JSON.stringify(srmData)
+    info('Coverity JSON: '.concat(inputJson))
 
     const stateFilePath = path.join(this.tempDir, BridgeToolsParameter.SRM_STATE_FILE_NAME)
     fs.writeFileSync(stateFilePath, inputJson)
