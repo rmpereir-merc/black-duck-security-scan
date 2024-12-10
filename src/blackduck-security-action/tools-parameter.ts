@@ -219,6 +219,8 @@ export class BridgeToolsParameter {
     }
 
     const inputJson = JSON.stringify(polData)
+    info('Coverity JSON: ' + inputJson)
+
     const stateFilePath = path.join(this.tempDir, BridgeToolsParameter.POLARIS_STATE_FILE_NAME)
     fs.writeFileSync(stateFilePath, inputJson)
 
